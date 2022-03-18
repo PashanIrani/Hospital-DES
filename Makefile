@@ -6,7 +6,7 @@ OBJ_FILES=$(patsubst $(SRC)/%.cpp,./%.o,$(SRC_FILES))
 
 CC=cc
 CXX=g++
-CCFLAGS= -g -std=c++11 -Wall -Werror
+CCFLAGS= -g -std=c++11 -Wall # -Werror
 LDLIBS= -lm
 
 all: project1
