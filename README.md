@@ -2,7 +2,7 @@
 
 Members: Pashan Irani, Divij Gupta & Manav Meghpara
 
-# Discrete Event Simulation of a Major Hospital's Emergency Department ![Makefile CI](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/build-check.yml/badge.svg)
+# Discrete Event Simulation of a Major Hospital's Emergency Department ![Makefile CI](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/build-check.yml/badge.svg?branch=master)
 
 ## Components
 
