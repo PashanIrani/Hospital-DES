@@ -1,8 +1,17 @@
 #include <iostream>
-#include "test.h"
+#include <random>
+#include "init.h"
+
+using namespace std;
+
 int main(int argc, char const *argv[])
 {
-  printf("Hello World!\n");
-  testPrint();
+  Patient **p = recieve_patients(5);
+
+  for (int i = 0; i < 5; ++i)
+  {
+    cout << (*(p + i))->arrival_time << endl;
+  }
+
   return 0;
 }
