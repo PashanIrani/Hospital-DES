@@ -1,1 +1,3 @@
-# CMPT305-Project1
+#### CMPT305 - Project 1
+
+Members: Pashan Irani, Divij Gupta & Manav Meghpara
