@@ -20,5 +20,8 @@ jobs:
     - name: Simple Run 
       run: ./project1
       
+    - name: Check valgrind
+      run: valgrind ./project1
+      
     - name: Clean
       run: make clean
