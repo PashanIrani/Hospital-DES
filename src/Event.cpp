@@ -7,6 +7,8 @@ Event::Event(EventType event_type, double event_time) {
   this->event_time = event_time;
 }
 
+Event::~Event() { /* nothing to destructor, but adding a defination to make the compiler happy */ }
+
 // Compare function between 2 events
 double Event::compareTo(Event * other)  {
   return this->event_time  - other->event_time;

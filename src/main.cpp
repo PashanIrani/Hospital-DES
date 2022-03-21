@@ -6,7 +6,7 @@
 
 // TODO: remove before submission
 void HeapTesting() {
-  int amount = 10;
+  int amount = 5;
   Patient **p = recieve_patients(amount);
   Heap<Patient> h;
 
@@ -21,8 +21,12 @@ void HeapTesting() {
 
   std::cout << "Start Pops (output should be in lowest to highest):" << std::endl;
   for (int i = 0; i < amount; i++) {
-    (h.pop())->print();
+    Patient *pp = h.pop();
+    pp->print();
+    delete pp;
   }
+
+  free(p);
 
   std::cout << "EVENT TESTING:"<< std::endl << std::endl;
   // EVENT TESTING
@@ -52,13 +56,31 @@ void HeapTesting() {
   std::cout << "START_SERVICE event at time 1.0 added." << std::endl;
 
   std::cout << "Output should be ordered by time (Expected Output: ARRIVAL, START_SERVICE, DEPARTURE, ...)" << std::endl;
-  (eventList.pop())->print();
-  (eventList.pop())->print();
-  (eventList.pop())->print();
-  (eventList.pop())->print();
-  (eventList.pop())->print();
-  (eventList.pop())->print();
-  
+
+  Event *top;
+  top = eventList.pop();
+  top->print();
+  delete top;
+
+  top = eventList.pop();
+  top->print();
+  delete top;
+
+  top = eventList.pop();
+  top->print();
+  delete top;
+
+  top = eventList.pop();
+  top->print();
+  delete top;
+
+  top = eventList.pop();
+  top->print();
+  delete top;
+
+  top = eventList.pop();
+  top->print();
+  delete top;  
 }
 
 int main(int argc, char const *argv[])

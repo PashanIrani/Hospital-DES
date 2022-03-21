@@ -8,7 +8,8 @@ class Patient : Heapable {
     PatientClassification classification;
     
     Patient(double arrival_time);
-
+    ~Patient();
+    
     double compareTo(Patient *);
     void print();    
     PatientClassification determineClassification();

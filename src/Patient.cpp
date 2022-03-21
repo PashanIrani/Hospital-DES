@@ -7,6 +7,8 @@ Patient::Patient(double arrival_time)
   this->classification = this->determineClassification();
 }
 
+Patient::~Patient() { /* nothing to destructor, but adding a defination to make the compiler happy */ }
+
 double Patient::compareTo(Patient * other)  {
   // TODO: handle classifications
   return this->arrival_time  - other->arrival_time;

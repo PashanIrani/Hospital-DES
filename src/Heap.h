@@ -20,6 +20,14 @@ public:
     data = (O **) malloc(sizeof(O *));
   }
 
+  ~Heap() {
+    for (int i = 0; i < allocatedSpace; ++i) {
+      free(data[i]);
+    }
+
+    free(data);
+  }
+
   /* prints tree in the order: 
   root 
   left1 

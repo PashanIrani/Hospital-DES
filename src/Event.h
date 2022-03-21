@@ -9,7 +9,8 @@ class Event : Heapable {
     double event_time;
 
     Event(EventType event_type, double event_time);
-
+    ~Event();
+    
     double compareTo(Event *);
     void print();
     std::string eventTypeToString();
