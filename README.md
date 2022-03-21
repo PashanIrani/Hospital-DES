@@ -2,7 +2,7 @@
 
 Members: Pashan Irani, Divij Gupta & Manav Meghpara
 
-[![Build & Memory Leak check](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/ci.yml/badge.svg?branch=master)
+[![Build & Memory Leak check](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/PashanIrani/CMPT305-Project1/actions/workflows/ci.yml?query=branch%3Amaster)
 
 # Discrete Event Simulation of a Major Hospital's Emergency Department
 
