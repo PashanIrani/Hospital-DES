@@ -1,10 +1,15 @@
+#include "Heapable.h"
+
 enum PatientClassification { HIGH, MEDIUM, LOW };
 
-class Patient {
+class Patient : Heapable {
   public:
     double arrival_time;
     PatientClassification classification;
-
+    
     Patient(double arrival_time);
-  PatientClassification determineClassification();
+
+    double compareTo(Patient *);
+    void print();    
+    PatientClassification determineClassification();
 };
