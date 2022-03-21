@@ -19,6 +19,9 @@ jobs:
     
     - name: Simple Run 
       run: ./project1
+    
+    - name: Update APT-GET
+      run: sudo apt-get update
       
     - name: Install Valgrind
       run: sudo apt install -y valgrind
