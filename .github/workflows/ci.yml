@@ -27,7 +27,7 @@ jobs:
       run: sudo apt install -y valgrind
       
     - name: Check Valgrind
-      run: valgrind --error-exitcode ./project1
+      run: valgrind --error-exitcode=1 ./project1
       
     - name: Clean
       run: make clean
