@@ -1,10 +1,9 @@
 #include <random>
 #include "NumberGenerator.h"
 
-NumberGenerator::NumberGenerator(double mu, double std, int seed)
+NumberGenerator::NumberGenerator(std::default_random_engine *generator, double var)
 {
-  this->generator = new std::default_random_engine(seed);
-  this->distribution = new std::normal_distribution<>(mu, std);
+  this->distribution = new std::exponential_distribution<>(var);
 }
 
 double NumberGenerator::next()
@@ -14,9 +13,5 @@ double NumberGenerator::next()
 
 NumberGenerator::~NumberGenerator()
 {
-  delete generator;
   delete distribution;
-  // test code
-
-  // new code
 }

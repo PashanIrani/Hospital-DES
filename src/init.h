@@ -1,3 +1,8 @@
 #include "Patient.h"
 
-Patient **recieve_patients(int n);
+
+class Init {
+    public : 
+    std::default_random_engine *generator;
+    Patient **recieve_patients(int n);
+}
