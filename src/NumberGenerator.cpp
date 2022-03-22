@@ -16,4 +16,5 @@ NumberGenerator::~NumberGenerator()
 {
   delete generator;
   delete distribution;
+  // test code
 }
