@@ -3,22 +3,18 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#ifndef uint64
-    #define uint64 unsigned long
-#endif
-
 struct QueueNode {
     int item;             // customer information
-    uint64 arrival_time;  // arrival time for customer
+    double arrival_time;  // arrival time for customer
     struct QueueNode *next;  // next customer in line; NULL if this is the last customer
 };
 
 struct Queue {
     struct QueueNode* head;    // Pointer to queue head: next node to be served
     struct QueueNode* tail;    // Pointer to queue tail: last node to be inserted
-    uint64 service_time;       // service time required to serve each customer in the queue
-    uint64 arrival_count;      // Total number of arrivals in the queue
-    uint64 departure_count;    // Total number of departures from the queue
+    double service_time;       // service time required to serve each customer in the queue
+    double arrival_count;      // Total number of arrivals in the queue
+    double departure_count;    // Total number of departures from the queue
 };
 
 /*
@@ -26,14 +22,14 @@ struct Queue {
  * initialize it with the item value and its arrival_time;
  * Return a pointer to the new node.
  */
-struct QueueNode* CreateNode(int item, uint64 arrival_time);
+struct QueueNode* CreateNode(int item, double arrival_time);
 
 /*
  * Insert node with specified item and arrival time at the tail of the list.
  * If the queue is empty, then both the head and the tail should point to the new node
  * Should increment the arrival_count of the queue
  */
-void Insert (struct Queue *q, int item, uint64 arrival_time);
+void Insert (struct Queue *q, int item, double arrival_time);
 
 /*
  * Delete node from head of the list and free its allocated memory
@@ -48,7 +44,7 @@ void Delete (struct Queue *q);
  * Count the current number of nodes in the queue.
  * Return 0 if the queue is empty, i.e., head == tail == NULL
  */
-uint64 CountNodes (struct Queue *q);
+double CountNodes (struct Queue *q);
 
 /*
  * Return the first node holding the value item
@@ -62,7 +58,7 @@ struct QueueNode* FindNode(struct Queue *q, int item);
  * FindNodeAfterTime(q, 505) returns a pointer to QueueNode {4, 510}
  * FindNodeAfterTime(q, 80) returns a pointer to QueueNode {2, 80}
  */
-struct QueueNode* FindNodeAfterTime(struct Queue *q, uint64 t);
+struct QueueNode* FindNodeAfterTime(struct Queue *q, double t);
 
 /*
  * Return the count of all nodes that have an arrival time >= t
@@ -70,7 +66,7 @@ struct QueueNode* FindNodeAfterTime(struct Queue *q, uint64 t);
  * CountNodesAfterTime(q, 505) returns 2
  * CountNodesAfterTime(q, 80) returns 4
  */
-uint64 CountNodesAfterTime(struct Queue *q, uint64 t);
+double CountNodesAfterTime(struct Queue *q, double t);
 
 
 

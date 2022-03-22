@@ -8,7 +8,7 @@
  * initialize it with the item value and its arrival_time;
  * Return a pointer to the new node.
  */
-struct QueueNode* CreateNode(int item, uint64 arrival_time) {
+struct QueueNode* CreateNode(int item, double arrival_time) {
     struct QueueNode *newNode = (struct QueueNode *)malloc(sizeof(struct QueueNode));
     newNode->item = item;
     newNode->arrival_time = arrival_time;
@@ -21,7 +21,7 @@ struct QueueNode* CreateNode(int item, uint64 arrival_time) {
  * If the queue is empty, then both the head and the tail should point to the new node
  * Should increment the arrival_count of the queue
  */
-void Insert (struct Queue *q, int item, uint64 arrival_time) {
+void Insert (struct Queue *q, int item, double arrival_time) {
     struct QueueNode *newNode = (struct QueueNode *)malloc(sizeof(struct QueueNode));
     newNode->item = item;
     newNode->arrival_time = arrival_time;
@@ -67,7 +67,7 @@ void Delete (struct Queue *q) {
  * Count the current number of nodes in the queue.
  * Return 0 if the queue is empty, i.e., head == tail == NULL
  */
-uint64 CountNodes (struct Queue *q) {
+double CountNodes (struct Queue *q) {
     if(q->head == NULL)
         return 0;
     int count = 0;
@@ -99,7 +99,7 @@ struct QueueNode* FindNode(struct Queue *q, int item) {
  * FindNodeAfterTime(q, 505) returns a pointer to QueueNode {4, 510}
  * FindNodeAfterTime(q, 80) returns a pointer to QueueNode {2, 80}
  */
-struct QueueNode* FindNodeAfterTime(struct Queue *q, uint64 t) {
+struct QueueNode* FindNodeAfterTime(struct Queue *q, double t) {
     struct QueueNode *iter = q->head;
     while(iter!=NULL){
         if(iter->arrival_time>= t)
@@ -115,7 +115,7 @@ struct QueueNode* FindNodeAfterTime(struct Queue *q, uint64 t) {
  * CountNodesAfterTime(q, 505) returns 2
  * CountNodesAfterTime(q, 80) returns 4
  */
-uint64 CountNodesAfterTime(struct Queue *q, uint64 t) {
+double CountNodesAfterTime(struct Queue *q, double t) {
     struct QueueNode *iter = q->head;
     int count = 0;
     while(iter!=NULL){
