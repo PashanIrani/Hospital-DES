@@ -18,5 +18,7 @@ Patient **recieve_patients(int n)
     patients[i] = new Patient(arrival_time);
   }
 
+  delete ng;
+
   return patients;
 }
