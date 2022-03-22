@@ -3,8 +3,9 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
+template <class T>
 struct QueueNode {
-    int item;             // customer information
+    T item;             // customer information
     double arrival_time;  // arrival time for customer
     struct QueueNode *next;  // next customer in line; NULL if this is the last customer
 };
@@ -22,14 +23,16 @@ struct Queue {
  * initialize it with the item value and its arrival_time;
  * Return a pointer to the new node.
  */
-struct QueueNode* CreateNode(int item, double arrival_time);
+template <class T>
+struct QueueNode* CreateNode(T item, double arrival_time);
 
 /*
  * Insert node with specified item and arrival time at the tail of the list.
  * If the queue is empty, then both the head and the tail should point to the new node
  * Should increment the arrival_count of the queue
  */
-void Insert (struct Queue *q, int item, double arrival_time);
+template <class T>
+void Insert (struct Queue *q, T item, double arrival_time);
 
 /*
  * Delete node from head of the list and free its allocated memory
@@ -38,19 +41,22 @@ void Insert (struct Queue *q, int item, double arrival_time);
  * If the queue has one node, then both the head and the tail should point to NULL after the node is deleted
  * Should decrement the arrival_count of the queue
  */
+template <class T>
 void Delete (struct Queue *q);
 
 /*
  * Count the current number of nodes in the queue.
  * Return 0 if the queue is empty, i.e., head == tail == NULL
  */
+template <class T>
 double CountNodes (struct Queue *q);
 
 /*
  * Return the first node holding the value item
  * return NULL if none found
  */
-struct QueueNode* FindNode(struct Queue *q, int item);
+template <class T>
+struct QueueNode* FindNode(struct Queue *q, T item);
 
 /*
  * Return a pointer to first node that has an arrival time >= t

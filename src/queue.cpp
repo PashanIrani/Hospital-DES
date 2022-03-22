@@ -8,7 +8,8 @@
  * initialize it with the item value and its arrival_time;
  * Return a pointer to the new node.
  */
-struct QueueNode* CreateNode(int item, double arrival_time) {
+template <class T>
+struct QueueNode* CreateNode(T item, double arrival_time) {
     struct QueueNode *newNode = (struct QueueNode *)malloc(sizeof(struct QueueNode));
     newNode->item = item;
     newNode->arrival_time = arrival_time;
@@ -21,7 +22,8 @@ struct QueueNode* CreateNode(int item, double arrival_time) {
  * If the queue is empty, then both the head and the tail should point to the new node
  * Should increment the arrival_count of the queue
  */
-void Insert (struct Queue *q, int item, double arrival_time) {
+template <class T>
+void Insert (struct Queue *q, T item, double arrival_time) {
     struct QueueNode *newNode = (struct QueueNode *)malloc(sizeof(struct QueueNode));
     newNode->item = item;
     newNode->arrival_time = arrival_time;
@@ -45,6 +47,7 @@ void Insert (struct Queue *q, int item, double arrival_time) {
  * If the queue has one node, then both the head and the tail should point to NULL after the node is deleted
  * Should decrement the arrival_count of the queue
  */
+template <class T>
 void Delete (struct Queue *q) {
     if(q->head == NULL)
         return;
@@ -67,6 +70,7 @@ void Delete (struct Queue *q) {
  * Count the current number of nodes in the queue.
  * Return 0 if the queue is empty, i.e., head == tail == NULL
  */
+template <class T>
 double CountNodes (struct Queue *q) {
     if(q->head == NULL)
         return 0;
@@ -83,7 +87,8 @@ double CountNodes (struct Queue *q) {
  * Return the first node holding the value item
  * return NULL if none found
  */
-struct QueueNode* FindNode(struct Queue *q, int item) {
+template <class T>
+struct QueueNode* FindNode(struct Queue *q, T item) {
     struct QueueNode *iter = q->head;
     while(iter!=NULL){
         if(iter->item==item)
@@ -99,6 +104,7 @@ struct QueueNode* FindNode(struct Queue *q, int item) {
  * FindNodeAfterTime(q, 505) returns a pointer to QueueNode {4, 510}
  * FindNodeAfterTime(q, 80) returns a pointer to QueueNode {2, 80}
  */
+template <class T>
 struct QueueNode* FindNodeAfterTime(struct Queue *q, double t) {
     struct QueueNode *iter = q->head;
     while(iter!=NULL){
@@ -115,6 +121,7 @@ struct QueueNode* FindNodeAfterTime(struct Queue *q, double t) {
  * CountNodesAfterTime(q, 505) returns 2
  * CountNodesAfterTime(q, 80) returns 4
  */
+template <class T>
 double CountNodesAfterTime(struct Queue *q, double t) {
     struct QueueNode *iter = q->head;
     int count = 0;
