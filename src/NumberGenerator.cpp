@@ -4,6 +4,7 @@
 NumberGenerator::NumberGenerator(std::default_random_engine *generator, double var)
 {
   this->distribution = new std::exponential_distribution<>(var);
+  this->generator = generator;
 }
 
 double NumberGenerator::next()

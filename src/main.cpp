@@ -6,7 +6,9 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-  Patient **p = recieve_patients(5);
+  Init initialize(500);
+
+  Patient **p = initialize.recieve_patients(5);
 
   for (int i = 0; i < 5; ++i)
   {
