@@ -29,6 +29,8 @@ Patient** Init::recieve_patients(int n)
   // return patients;
 
 
-  // TODO: Do this proper
-  return NULL;
+
+  delete ng;
+
+  return patients;
 }
