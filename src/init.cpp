@@ -1,10 +1,11 @@
 #include "init.h"
-// #include <cstddef>
-// #include <cstdlib>
-// #include "NumberGenerator.h"
 
 Init::Init(int seed) {
   this->generator = new std::default_random_engine(seed);
+}
+
+Init::~Init() {
+  delete generator;
 }
 
 NumberGenerator * Init::getNumberGenerator(double variable) {
@@ -26,5 +27,6 @@ Patient** Init::recieve_patients(int n)
     prevPatient = patients[i];
   }
 
+  delete ng;
   return patients;
 }

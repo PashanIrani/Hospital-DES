@@ -1,7 +1,7 @@
 #include "Patient.h"
 #include "Event.h"
 #include "Heap.h"
-#include "queue.h"
+#include "Queue.h"
 #include "init.h"
 
 #pragma once
@@ -14,6 +14,8 @@ class NurseSystem {
     Init * init;
 
     NurseSystem(Heap<Event> * eventList, Init * init);
+    ~NurseSystem();
+    
     void performArrival(Event * event);
     void performService(Event * event);
     void performDeparture(Event * event);

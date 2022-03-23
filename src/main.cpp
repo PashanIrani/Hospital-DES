@@ -3,7 +3,7 @@
 #include "Heap.h"
 #include "init.h"
 #include "Event.h"
-#include "queue.h"
+#include "Queue.h"
 #include "NurseSystem.h"
 
 int main(int argc, char const *argv[])
@@ -15,8 +15,6 @@ int main(int argc, char const *argv[])
   int size = 100;
   Patient ** ps = initialize->recieve_patients(size); // get patients
 
-  
-
   Heap<Event> * eventList = new Heap<Event>(); // initialize event list
 
   int incomingPatientIndex = 0; // point to first paitent arriving to hospital
@@ -24,7 +22,6 @@ int main(int argc, char const *argv[])
   eventList->push(firstPatientArrival); // add to event list
   
   NurseSystem * ns = new NurseSystem(eventList, initialize); // initialize nurseSystem
-
 
   while (eventList->getSize() > 0) {
     Event * currentEvent = eventList->pop();
@@ -50,10 +47,15 @@ int main(int argc, char const *argv[])
       break;
     }
 
+    delete currentEvent;
   }
 
+  // Free Stuff
   delete ns;
+  free(ps);
   delete eventList;
+  delete initialize;
+
   // Load Queue : Nurses (E) 
 
   // struct Queue<Patient> * queueE = (Queue<Patient> *) malloc(sizeof(Queue<Patient>)); 

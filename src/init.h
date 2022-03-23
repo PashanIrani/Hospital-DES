@@ -9,6 +9,8 @@ class Init {
       std::default_random_engine *generator;
 
       Init(int seed);
+      ~Init();
+      
       Patient **recieve_patients(int n);
       NumberGenerator * getNumberGenerator(double variable);
 

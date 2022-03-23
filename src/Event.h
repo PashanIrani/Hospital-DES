@@ -21,9 +21,7 @@ class Event : Heapable {
       this->system_type = system_type;
     }
 
-    ~Event() {
-      delete item;
-    }
+    ~Event() {}
     
     double compareTo(Event * other)  {
       return this->event_time  - other->event_time;
