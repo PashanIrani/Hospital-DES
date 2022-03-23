@@ -1,4 +1,4 @@
-#include "init.h"
+#include "Init.h"
 
 /* Initializes Init class; 
 * initializes a singular generator with a seed, that will be used for all random numbers for this Init instance
