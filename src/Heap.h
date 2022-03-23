@@ -1,5 +1,7 @@
 #include <iostream>
 
+#pragma once
+
 using namespace std;
 
 /* Using template so this heap can support any class, 

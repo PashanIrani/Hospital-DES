@@ -1,5 +1,8 @@
 #include "Patient.h"
+#include "NumberGenerator.h"
 #include <random>
+
+#pragma once
 
 class Init {
     public : 
@@ -7,5 +10,6 @@ class Init {
 
       Init(int seed);
       Patient **recieve_patients(int n);
+      NumberGenerator * getNumberGenerator(double variable);
 
 };

@@ -1,5 +1,7 @@
 #include <random>
 
+#pragma once
+
 class NumberGenerator
 {
 public:
