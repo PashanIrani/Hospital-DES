@@ -2,6 +2,7 @@
 #include "NumberGenerator.h"
 #include <iostream>
 
+/* Initilizes a queue, and stores the program's eventList and init class for later usage */ 
 NurseSystem::NurseSystem(Heap<Event> * eventList, Init * init) {
   this->queue = (Queue<Patient> *) malloc(sizeof(Queue<Patient>));
 
@@ -13,6 +14,7 @@ NurseSystem::NurseSystem(Heap<Event> * eventList, Init * init) {
   this->init = init;
 }
 
+/* Frees memory */ 
 NurseSystem::~NurseSystem() {
   FreeNodes(queue);
   free(queue);
@@ -22,6 +24,7 @@ NurseSystem::~NurseSystem() {
 //   queue
 // }
 
+/* Arrival event routine */ 
 void NurseSystem::performArrival(Event * event) {
   std::cout << "[NS] ARRIVAL" << std::endl;
 
@@ -33,15 +36,17 @@ void NurseSystem::performArrival(Event * event) {
 
   // double wait_time = getWaitTime();
 
-  Event * service_event = new Event(START_SERVICE, event->item->arrival_time + wait_time, event->item, NURSE_SYSTEM);
+  Event * service_event = new Event(START_SERVICE, event->item->arrival_time + wait_time, event->item, SYSTEM_NURSE);
   eventList->push(service_event);
 }
 
+/* Service Event Routine */ 
 void NurseSystem::performService(Event * event) {
   std::cout << "[NS] SERVICE" << std::endl;
   // wait_time += service_time;
 }
 
+/* Departure Event Routine */ 
 void NurseSystem::performDeparture(Event * event) {
   std::cout << "[NS] DEPARTURE" << std::endl;
 }
