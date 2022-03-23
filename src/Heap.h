@@ -24,7 +24,7 @@ public:
 
   ~Heap() {
     for (int i = 0; i < allocatedSpace; ++i) {
-      free(data[i]);
+      delete data[i]; // all data values MUST be initialized with 'new'
     }
 
     free(data);

@@ -25,10 +25,9 @@ struct Queue {
  * Return a pointer to the new node.
  */
 template <class T>
-struct QueueNode<T>* CreateNode(T item, double arrival_time) {
+struct QueueNode<T>* CreateNode(T * item) {
     struct QueueNode<T> *newNode = (struct QueueNode<T> *)malloc(sizeof(struct QueueNode<T>));
     newNode->item = item;
-    newNode->arrival_time = arrival_time;
     newNode->next = NULL;
     return newNode;
 }
@@ -40,9 +39,7 @@ struct QueueNode<T>* CreateNode(T item, double arrival_time) {
  */
 template<class T>
 void Insert(struct Queue<T> *q, T * item) {
-    struct QueueNode<T> *newNode = (struct QueueNode<T> *)malloc(sizeof(struct QueueNode<T>));
-    newNode->item = item;
-    newNode->next = NULL;
+    struct QueueNode<T> *newNode = CreateNode(item);
     q->arrival_count += 1;
     if (q->head==NULL){
         q->head = newNode;
@@ -102,6 +99,20 @@ double CountNodes(struct Queue<T> *q) {
         count++;
     }
     return count;
+}
+
+
+template <class T>
+void FreeNodes(struct Queue<T> *q) {
+    if (q->head == NULL) return;
+
+    struct QueueNode<T> *iter = q->head;
+    while (iter != NULL) {
+        struct QueueNode<T> *temp = iter;
+       iter = iter->next; 
+       delete temp->item;
+       free(temp);
+    }
 }
 
 #endif
