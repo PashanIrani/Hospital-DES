@@ -21,7 +21,7 @@ Patient** Init::recieve_patients(int n)
 {
   Patient **patients = (Patient **)malloc(sizeof(Patient *) * n);
 
-  NumberGenerator *ng = getNumberGenerator(2);
+  NumberGenerator *ng = getNumberGenerator(10);
 
   Patient *prevPatient = NULL;
 
