@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
   Init * initialize = new Init(500); // Init class with seed of 500 
   Global * global = new Global();
 
-  int size = 4;
+  int size = 50;
   Patient ** ps = initialize->recieve_patients(size); // get patients
 
   // DEBUG: Print Patients
@@ -36,7 +36,6 @@ int main(int argc, char const *argv[])
 
   while (eventList->getSize() > 0) {
     Event * currentEvent = eventList->pop(); // Get next event;
-
     switch (currentEvent->event_type)
     {
     case ARRIVAL:
@@ -65,6 +64,7 @@ int main(int argc, char const *argv[])
     delete currentEvent;
   }
 
+  cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
   // Free Stuff
   delete ns;
   free(ps);

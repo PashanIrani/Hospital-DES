@@ -14,6 +14,7 @@ template <class T>
 struct Queue {
     struct QueueNode<T>* head;    // Pointer to queue head: next node to be served
     struct QueueNode<T>* tail;    // Pointer to queue tail: last node to be inserted
+    struct QueueNode<T>* current;
     double service_time;       // service time required to serve each customer in the queue
     double arrival_count;      // Total number of arrivals in the queue
     double departure_count;    // Total number of departures from the queue
