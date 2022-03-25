@@ -67,13 +67,13 @@ int main(int argc, char const *argv[])
   cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
   // Free Stuff
   delete ns;
-  free(ps);
   delete eventList;
   delete initialize;
   delete global;
   for (int i = 0; i < size; ++i) {
-    free(ps[i]);
+    delete ps[i];
   }
+  free(ps);
   
   return 0;
 }
