@@ -11,15 +11,17 @@ class Patient : Heapable {
     /* Stoes the service time for the patient in the CURRENT system*/
     double service_time;
 
+    int patientID;
+
     /* Stores the patient's classification */
     PatientClassification classification;
 
     // TODO: will likey need to create another variable to start patient's initial arrival time
 
-    Patient(double arrival_time);
+    Patient(double arrival_time, PatientClassification classification);
     ~Patient();
     
     double compareTo(Patient *);
     void print();    
-    PatientClassification determineClassification();
+    //PatientClassification determineClassification();
 };

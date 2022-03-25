@@ -2,10 +2,10 @@
 #include <iostream>
 
 /* Constructor */
-Patient::Patient(double arrival_time)
+Patient::Patient(double arrival_time, PatientClassification classification)
 {
   this->arrival_time = arrival_time;
-  this->classification = this->determineClassification();
+  this->classification = classification;
 }
 
 Patient::~Patient() { /* nothing to destructor, but adding a defination to make the compiler happy */ }
@@ -18,12 +18,13 @@ double Patient::compareTo(Patient * other)  {
 
 /* Prints patient data, used for debug */
 void Patient::print()  {
-  std::cout << "[arrival_time: "<< this->arrival_time << "]" << std::endl;
+  std::cout << "[arrival_time: "<< this->arrival_time << "]" << ", Classification: " << this->classification << std::endl;
 }
 
-/* Determines the classification of the patient */
-PatientClassification Patient::determineClassification()
-{
-  // TODO: Need to implement ACTUAL logic here.
-  return PatientClassification::HIGH;
-}
+
+// /* Determines the classification of the patient */
+// PatientClassification Patient::determineClassification()
+// {
+//   // TODO: Need to implement ACTUAL logic here.
+//   return PatientClassification::HIGH;
+// }
