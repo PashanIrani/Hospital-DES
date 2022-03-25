@@ -23,3 +23,4 @@ private:
     Patient** generatePatientsOfClassification(double lambda, int totalPatients, PatientClassification classification);
     Patient* dequeue(Patient** patientList);
 };
+

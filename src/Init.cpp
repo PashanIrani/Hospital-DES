@@ -132,6 +132,7 @@ Patient** Init::recieve_patients(int n) {
         i++;
     }
 
+
     if (lowCount < total_lowPatients) {
         for (; i < totalPatients; i++) {
             patients[i] = lowPriorityPatients[lowCount];
@@ -146,6 +147,7 @@ Patient** Init::recieve_patients(int n) {
             patients[i]->patientID = i;
         }
     }
+
 
     // std::cout << "------------Final patients array ------------" << std::endl;
     // for (int i = 0; i < totalPatients; i++) {
