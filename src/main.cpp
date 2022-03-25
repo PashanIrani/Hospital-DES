@@ -71,6 +71,9 @@ int main(int argc, char const *argv[])
   delete eventList;
   delete initialize;
   delete global;
+  for (int i = 0; i < size; ++i) {
+    free(ps[i]);
+  }
   
   return 0;
 }
