@@ -41,10 +41,6 @@ void Init::deleteQueue(Patient** arr, int size) {
     delete arr;
 }
 
-Patient* Init::dequeue(Patient** patientList) {
-    // assume that patient list is not empty
-}
-
 /* Returns an array of patients that will be "entering" the "hospital" */
 Patient** Init::recieve_patients(int n) {
 
@@ -149,6 +145,7 @@ Patient** Init::recieve_patients(int n) {
     }
 
 
+
     // std::cout << "------------Final patients array ------------" << std::endl;
     // for (int i = 0; i < totalPatients; i++) {
     //     patients[i]->print();
@@ -157,10 +154,10 @@ Patient** Init::recieve_patients(int n) {
 
     // std::cout << total_lowPatients << ", " << total_medPatients << ", " << total_highPatients << ", " << totalPatients << std::endl;
 
-    /*deleteQueue(highPriorityPatients, total_highPatients);
-    deleteQueue(medPriorityPatients, total_medPatients);
-    deleteQueue(lowPriorityPatients, total_lowPatients);
-    deleteQueue(tempArray, totalHighAndMedPatients);*/
+    // free(highPriorityPatients);
+    // free(medPriorityPatients);
+    // free(lowPriorityPatients);
+    // free(tempArray);
 
     return patients;
 }
