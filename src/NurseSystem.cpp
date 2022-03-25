@@ -30,26 +30,27 @@ void NurseSystem::beforeEventRoutine(Event * event) {
 /* Arrival event routine */ 
 void NurseSystem::performArrival(Event * event) {
   beforeEventRoutine(event);
-  
-  NumberGenerator * ng = init->getNumberGenerator(6); 
+
+  NumberGenerator * ng = init->getNumberGenerator(3); 
   event->item->service_time = ng->next(); // determine service time
   delete ng;
 
-  std::cout << "Service Time For Arriving patient: " << event->item->service_time <<  std::endl;
-  
-  // If no patients in queue, begin service
-  if (CountNodes(queue) == 0) {
-    Event * service_event = new Event(START_SERVICE, global->clock, event->item, SYSTEM_NURSE);
-    eventList->push(service_event);
-  }
-
   Insert(queue, event->item);
+  std::cout << "Service Time For Arriving patient: " << event->item->service_time <<  std::endl;
+  std::cout<<"Queue count: "<<CountNodes(queue)<<std::endl;
+  
+
+  if (CountNodes(queue) <= global->m1) {
+    Event * service_event = new Event(START_SERVICE, event->item->arrival_time, event->item, SYSTEM_NURSE);
+    eventList->push(service_event);
+    queue->current = queue->tail;
+  }
+  
 }
 
 /* Service Event Routine */ 
 void NurseSystem::performService(Event * event) {
   beforeEventRoutine(event);
-  
   double departing_time = global->clock + event->item->service_time;
 
   // Create departure event
@@ -60,14 +61,15 @@ void NurseSystem::performService(Event * event) {
 /* Departure Event Routine */ 
 void NurseSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
-
   Patient * departing_patient = Delete(queue); // remove departing patient from queue
+  global->totalWaitE += global->clock - departing_patient->arrival_time;
+  std::cout<<"Wait time: "<<global->totalWaitE<<std::endl;
 
-  // If more nodes in queue, start service for next patient
-  if (CountNodes(queue) > 0) {
-    Event * service_event = new Event(START_SERVICE, global->clock, queue->head->item, SYSTEM_NURSE);
+  if(CountNodes(queue) >0 && queue->current->next!=NULL){
+    Event * service_event = new Event(START_SERVICE, queue->current->next->item->arrival_time, queue->current->next->item, SYSTEM_NURSE);
     eventList->push(service_event);
+    queue->current = queue->current->next;
   }
 
-  delete departing_patient; // TODO: this patient will then enter the Room Queue (heap).
+// TODO: this patient will then enter the Room Queue (heap).
 }
