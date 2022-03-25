@@ -5,7 +5,7 @@
 #pragma once
 
 enum EventType { ARRIVAL, START_SERVICE, DEPARTURE };
-enum SystemType { SYSTEM_NURSE };
+enum SystemType { SYSTEM_NURSE, SYSTEM_ROOM };
 
 class Event : Heapable {
   public:
@@ -21,11 +21,14 @@ class Event : Heapable {
     // The type of system this event belongs to.
     SystemType system_type;
 
-    Event(EventType event_type, double event_time, Patient * item, SystemType system_type) {
+    int roomId;
+
+    Event(EventType event_type, double event_time, Patient * item, SystemType system_type, int roomId) {
       this->event_type = event_type;
       this->event_time = event_time;
       this->item = item;
       this->system_type = system_type;
+      this->roomId = roomId;
     }
 
     ~Event() {}

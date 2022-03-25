@@ -5,5 +5,6 @@ class Global {
   public:
     double clock = 0.0;
     double totalWaitE = 0.0;
-    int m1=5;
+    int m1=2;
+    int R=1;
 };
