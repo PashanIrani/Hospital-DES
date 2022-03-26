@@ -18,13 +18,13 @@ class Global {
         cur->isAvailable = true;
       }
     }
-    int getFreeRoom(){
+    Room* getFreeRoom(){
       Room* last = &rooms[R];
       for (Room* cur = rooms; cur!=last; ++cur){
         if(cur->isAvailable)
-          return cur->roomId;
+          return cur;
       }
-      return -1; //not available
+      return NULL; //not available
     }
     ~Global (){delete rooms;}
 };

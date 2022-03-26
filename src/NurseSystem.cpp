@@ -40,7 +40,7 @@ void NurseSystem::performArrival(Event * event) {
   
 
   if (CountNodes(queue) <= global->m1) {
-    Event * service_event = new Event(START_SERVICE, event->item->arrival_time, event->item, SYSTEM_NURSE, -1);
+    Event * service_event = new Event(START_SERVICE, event->item->arrival_time, event->item, SYSTEM_NURSE, NULL);
     eventList->push(service_event);
     queue->current = queue->tail;
   }
@@ -53,7 +53,7 @@ void NurseSystem::performService(Event * event) {
   double departing_time = global->clock + event->item->service_time;
 
   // Create departure event
-  Event * departure_event = new Event(DEPARTURE, departing_time, event->item, SYSTEM_NURSE, -1);
+  Event * departure_event = new Event(DEPARTURE, departing_time, event->item, SYSTEM_NURSE, NULL);
   eventList->push(departure_event);
 }
 
@@ -64,12 +64,12 @@ void NurseSystem::performDeparture(Event * event) {
   global->totalWaitE += global->clock - departing_patient->arrival_time;
 
   if(CountNodes(queue) >0 && queue->current->next!=NULL){
-    Event * service_event = new Event(START_SERVICE, global->clock, queue->current->next->item, SYSTEM_NURSE, -1);
+    Event * service_event = new Event(START_SERVICE, global->clock, queue->current->next->item, SYSTEM_NURSE, NULL);
     eventList->push(service_event);
     queue->current = queue->current->next;
   }
 
 // TODO: this patient will then enter the Room Queue (heap).
-  Event * room_arrival_event = new Event(ARRIVAL, global->clock, departing_patient, SYSTEM_ROOM, -1);
+  Event * room_arrival_event = new Event(ARRIVAL, global->clock, departing_patient, SYSTEM_ROOM, NULL);
   eventList->push(room_arrival_event);
 }

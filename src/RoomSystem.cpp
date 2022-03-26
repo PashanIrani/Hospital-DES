@@ -30,12 +30,11 @@ void RoomSystem::performArrival(Event * event) {
 
   queue->push(event->item);
 
+  Room* availRoom = global->getFreeRoom();
 
-  int roomNum = global->getFreeRoom();
 
-
-  if (roomNum!=-1) {
-    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room, event->item, SYSTEM_ROOM, roomNum);
+  if (availRoom!=NULL) {
+    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room, event->item, SYSTEM_ROOM, availRoom);
     eventList->push(service_event);  
   }
 
@@ -44,14 +43,14 @@ void RoomSystem::performArrival(Event * event) {
 void RoomSystem::performService(Event * event) {
   beforeEventRoutine(event);
 
-  (&global->rooms[event->roomId])->isAvailable = false;
+  event->room->isAvailable = false;
 
   double departing_time = global->clock + event->item->service_time;
 
   Patient * servicing_patient = queue->pop();
 
   // Create departure event
-  Event * departure_event = new Event(DEPARTURE, departing_time, servicing_patient, SYSTEM_ROOM, event->roomId);
+  Event * departure_event = new Event(DEPARTURE, departing_time, servicing_patient, SYSTEM_ROOM, event->room);
   eventList->push(departure_event);
 }
 
@@ -59,15 +58,12 @@ void RoomSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
 
   Patient * departing_patient = event->item; 
+
+  Event * clean_event = new Event(ARRIVAL, global->clock, NULL, SYSTEM_CLEAN, event->room);
+  eventList->push(clean_event);
   
-  (&global->rooms[event->roomId])->isAvailable = true;
-  
-  if (queue->getSize() > 0) {
-        Event * service_event = new Event(START_SERVICE, global->clock, queue->getHead(), SYSTEM_ROOM, event->roomId);
-        eventList->push(service_event);
-  }
   
   // delete departing_patient;
 
-  
 }
+

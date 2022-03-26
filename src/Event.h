@@ -1,11 +1,12 @@
 #include "Heapable.h"
 #include <iostream>
 #include "Patient.h"
+#include "Room.h"
 
 #pragma once
 
-enum EventType { ARRIVAL, START_SERVICE, DEPARTURE };
-enum SystemType { SYSTEM_NURSE, SYSTEM_ROOM };
+enum EventType { ARRIVAL, START_SERVICE, DEPARTURE};
+enum SystemType { SYSTEM_NURSE, SYSTEM_ROOM, SYSTEM_CLEAN };
 
 class Event : Heapable {
   public:
@@ -21,14 +22,14 @@ class Event : Heapable {
     // The type of system this event belongs to.
     SystemType system_type;
 
-    int roomId;
+    Room * room;
 
-    Event(EventType event_type, double event_time, Patient * item, SystemType system_type, int roomId) {
+    Event(EventType event_type, double event_time, Patient * item, SystemType system_type, Room* room) {
       this->event_type = event_type;
       this->event_time = event_time;
       this->item = item;
       this->system_type = system_type;
-      this->roomId = roomId;
+      this->room = room;
     }
 
     ~Event() {}
@@ -58,7 +59,7 @@ class Event : Heapable {
       case DEPARTURE:
         return "DEPARTURE";
         break;
-        
+
       default:
         return "UNDEFINED";
         break;
