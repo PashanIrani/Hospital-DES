@@ -21,7 +21,6 @@ class RoomSystem {
     // Global class
     Global * global;
 
-    bool rooms[1] = {true}; // TODO:  make objects and make global
   
     RoomSystem(Heap<Event> * eventList, Init * init, Global * global);
     ~RoomSystem();

@@ -30,19 +30,12 @@ void RoomSystem::performArrival(Event * event) {
 
   queue->push(event->item);
 
-  bool isRoomFree = false;
-  bool roomId = -1;
 
-  for (int i = 0; i < 2; i++) {
-    if (rooms[i]) {
-      isRoomFree = true;
-      roomId = i;
-      break;
-    }
-  }
+  int roomNum = global->getFreeRoom();
 
-  if (isRoomFree) {
-    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room, event->item, SYSTEM_ROOM, roomId);
+
+  if (roomNum!=-1) {
+    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room, event->item, SYSTEM_ROOM, roomNum);
     eventList->push(service_event);  
   }
 
@@ -51,7 +44,7 @@ void RoomSystem::performArrival(Event * event) {
 void RoomSystem::performService(Event * event) {
   beforeEventRoutine(event);
 
-  rooms[event->roomId] = false;
+  (&global->rooms[event->roomId])->isAvailable = false;
 
   double departing_time = global->clock + event->item->service_time;
 
@@ -67,7 +60,7 @@ void RoomSystem::performDeparture(Event * event) {
 
   Patient * departing_patient = event->item; 
   
-  rooms[event->roomId] = true;
+  (&global->rooms[event->roomId])->isAvailable = true;
   
   if (queue->getSize() > 0) {
         Event * service_event = new Event(START_SERVICE, global->clock, queue->getHead(), SYSTEM_ROOM, event->roomId);
