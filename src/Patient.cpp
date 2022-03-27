@@ -1,5 +1,6 @@
 #include "Patient.h"
 #include <iostream>
+#include <sstream>
 
 /* Constructor */
 Patient::Patient(double arrival_time, PatientClassification classification)
@@ -12,8 +13,25 @@ Patient::~Patient() { /* nothing to destructor, but adding a defination to make 
 
 /* Compare function to order patients in a heap */
 double Patient::compareTo(Patient * other)  {
-  // TODO: handle classifications
-  return this->arrival_time  - other->arrival_time;
+  double arrival_time_difference = this->arrival_time  - other->arrival_time;
+
+  if (this->classification == other->classification) return arrival_time_difference;
+
+  switch (this->classification)
+  {
+  case HIGH:
+    return -1.0; // other patient MUST be MED or Lower
+    break;
+  case MEDIUM:
+    if (other->classification == HIGH) return 1.0;
+    return -1.0;
+    break;
+  case LOW:
+    return 1.0; // Others MUST be MED or HIGH.
+    break;
+  }
+
+  return arrival_time_difference;
 }
 
 /* Prints patient data, used for debug */
