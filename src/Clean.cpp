@@ -50,7 +50,7 @@ void Clean::performService(Event * event) {
   double departing_time = global->clock + event->room->service_time;
 
   // Create departure event
-  Event * departure_event = new Event(DEPARTURE, departing_time, NULL, SYSTEM_NURSE, event->room);
+  Event * departure_event = new Event(DEPARTURE, departing_time, NULL, SYSTEM_CLEAN, event->room);
   eventList->push(departure_event);
 }
 
