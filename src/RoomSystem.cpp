@@ -11,7 +11,9 @@ RoomSystem::RoomSystem(Heap<Event> * eventList, Init * init, Global * global) {
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void RoomSystem::beforeEventRoutine(Event * event) {
   global->clock = event->event_time;
-  std::cout << "[RS @ " << global->clock << "] " << event->eventTypeToString() << " for Patient " << event->item->patientID << std::endl;
+  if (global->DEBUG) {
+    std::cout << "(RS @ " << global->clock << ") - " << event->eventTypeToString() << " - " << event->item->toString() << std::endl;
+  }
 }
 
 RoomSystem::~RoomSystem() {
@@ -19,12 +21,12 @@ RoomSystem::~RoomSystem() {
 }
 
 void RoomSystem::performArrival(Event * event) {
-
   beforeEventRoutine(event);
   
   NumberGenerator * ng = init->getNumberGenerator(3);
   event->item->service_time = ng->next();
   event->item->arrival_time_room = global->clock;
+  if (global->DEBUG)
   std::cout << "RS service time: " << event->item->service_time <<  std::endl;
   delete ng;
 

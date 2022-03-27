@@ -22,7 +22,6 @@ class Global {
     int m2=3;
     
     // Rooms in the system
-
     Room* rooms; // TODO:  make objects and make global
     
     // Constructor, creates the rooms

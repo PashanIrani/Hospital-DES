@@ -24,7 +24,9 @@ NurseSystem::~NurseSystem() {
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void NurseSystem::beforeEventRoutine(Event * event) {
   global->clock = event->event_time;
-  std::cout << "[NS @ " << global->clock << "] " << event->eventTypeToString() << " for Patient " << event->item->patientID << std::endl;
+  if (global->DEBUG) {
+    std::cout << "(NS @ " << global->clock << ") - " << event->eventTypeToString() << " - " << event->item->toString() << std::endl;
+  }
 }
 
 /* Arrival event routine */ 
@@ -36,6 +38,8 @@ void NurseSystem::performArrival(Event * event) {
   delete ng;
 
   Insert(queue, event->item);
+
+  if (global->DEBUG)
   std::cout << "Service Time For Arriving patient: " << event->item->service_time <<  std::endl;
   
 
@@ -69,7 +73,7 @@ void NurseSystem::performDeparture(Event * event) {
     queue->current = queue->current->next;
   }
 
-// TODO: this patient will then enter the Room Queue (heap).
+  // This patient will then enter the Room Queue.
   Event * room_arrival_event = new Event(ARRIVAL, global->clock, departing_patient, SYSTEM_ROOM, NULL);
   eventList->push(room_arrival_event);
 }

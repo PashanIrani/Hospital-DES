@@ -18,13 +18,29 @@ double Patient::compareTo(Patient * other)  {
 
 /* Prints patient data, used for debug */
 void Patient::print()  {
-  std::cout << "[arrival_time: "<< this->arrival_time << "]" << ", Classification: " << this->classification << std::endl;
+  std::cout << this->toString() << std::endl;
 }
 
+std::string Patient::toString() {
+  std::ostringstream s;
+  s << "[ ID: " << this->patientID << ", arrival_time: "<< this->arrival_time << ", Class: " << getClassificationAsString() << "]";
+  return s.str();
+}
 
-// /* Determines the classification of the patient */
-// PatientClassification Patient::determineClassification()
-// {
-//   // TODO: Need to implement ACTUAL logic here.
-//   return PatientClassification::HIGH;
-// }
+std::string Patient::getClassificationAsString() {
+  switch (this->classification)
+  {
+  case HIGH:
+    return "HI";
+    break;
+  case MEDIUM:
+    return "MD";
+    break;
+  case LOW:
+    return "LO";
+    break;
+  default:
+    return "Something is not right here; see Patient.cpp:getClassificationAsString()";
+    break;
+  }
+}

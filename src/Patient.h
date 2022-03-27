@@ -1,4 +1,5 @@
 #include "Heapable.h"
+#include <iostream>
 
 #pragma once
 
@@ -27,5 +28,6 @@ class Patient : Heapable {
     
     double compareTo(Patient *);
     void print();    
-    //PatientClassification determineClassification();
+    std::string getClassificationAsString();
+    std::string toString();
 };

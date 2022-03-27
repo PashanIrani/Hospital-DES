@@ -19,7 +19,9 @@ Clean::Clean(Heap<Event> * eventList, Init * init, Global * global, Heap<Patient
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void Clean::beforeEventRoutine(Event * event) {
   global->clock = event->event_time;
-  std::cout << "[CS @ " << global->clock << "] " << event->eventTypeToString() << " for Room " << event->room->roomId<< std::endl;
+  if (global->DEBUG) {
+    std::cout << "(CS @ " << global->clock << ") - " << event->eventTypeToString() << " - [roomId: " << event->room->roomId << "]" << std::endl;
+  }
 }
 
 Clean::~Clean() {
@@ -35,6 +37,8 @@ void Clean::performArrival(Event * event) {
   delete ng;
 
   Insert(queue, event->room);
+
+  if (global->DEBUG)
   std::cout << "Service Time For cleaning room: " << event->room->service_time <<  std::endl;
   
 

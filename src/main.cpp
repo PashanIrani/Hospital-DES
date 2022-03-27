@@ -11,8 +11,6 @@
 
 int main(int argc, char const *argv[])
 {
-
-
   // TODO: read args
   
   Global * global = new Global();
@@ -24,12 +22,14 @@ int main(int argc, char const *argv[])
   int size = initialize->totalPatients;
 
   // DEBUG: Print Patients
-  for (int i = 0; i < size; ++i) {
-    std::cout << "Patient " << i << " - ";
-    ps[i]->print();
-  }
+  if (global->DEBUG) {
+    for (int i = 0; i < size; ++i) {
+      std::cout << "Patient " << i << " - ";
+      ps[i]->print();
+    }
 
-  std::cout << std::endl << " ----- " << std::endl << std::endl;
+    std::cout << std::endl << " ----- " << std::endl << std::endl;
+  }
 
   Heap<Event> * eventList = new Heap<Event>(); // initialize event list
 
@@ -77,15 +77,18 @@ int main(int argc, char const *argv[])
     delete currentEvent;
   }
 
-  cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
-  // Free Stuff
+  if (global->DEBUG) {
+    cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
+    // Free Stuff
 
-  for (int i = 0; i < size; ++i) {
-    std::cout << "Patient " << i << " - ";
-    ps[i]->print();
+    for (int i = 0; i < size; ++i) {
+      std::cout << "Patient " << i << " - ";
+      ps[i]->print();
+    }
+
   }
 
-
+  // Free Pointers
   delete ns;
   delete rs;
   delete cs;

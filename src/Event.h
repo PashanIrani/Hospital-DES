@@ -53,11 +53,11 @@ class Event : Heapable {
         break;
       
       case START_SERVICE:
-        return "START_SERVICE";
+        return "SERVICE";
         break;
 
       case DEPARTURE:
-        return "DEPARTURE";
+        return "DEPART ";
         break;
 
       default:
