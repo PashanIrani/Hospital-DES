@@ -23,7 +23,8 @@ void Clean::beforeEventRoutine(Event * event) {
 }
 
 Clean::~Clean() {
-
+  FreeNodes(queue);
+  free(queue);
 }
 
 void Clean::performArrival(Event * event) {

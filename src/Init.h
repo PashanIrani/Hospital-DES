@@ -16,7 +16,7 @@ public :
     NumberGenerator * getNumberGenerator(double variable);
 
     // todo: need to add lambdaHigh, lambdaLow and lambdaMed to the receivePatients() function params
-    Patient **recieve_patients(int n);
+    Patient **recieve_patients();
     void deleteQueue(Patient** arr, int size);
 
 private:

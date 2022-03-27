@@ -31,6 +31,8 @@ Patient** Init::generatePatientsOfClassification(double lambda, int numPatients,
         lastArrival += ng->next();
         patientQueue[i] = new Patient(lastArrival, classification);
     }
+
+    delete ng;
     return patientQueue;
 }
 
@@ -42,8 +44,7 @@ void Init::deleteQueue(Patient** arr, int size) {
 }
 
 /* Returns an array of patients that will be "entering" the "hospital" */
-Patient** Init::recieve_patients(int n) {
-
+Patient** Init::recieve_patients() {
     double lambda_high = 2; // 2 high priority patients every hour or 1 high priority patient every 30 mins
     double lambda_med = 4;  // 4 med priority patients every hour or 1 med priority patient every 15 mins
     double lambda_low = 6;  // 6 low priority patients every hour or 1 low priority patient every 10 mins
@@ -144,7 +145,7 @@ Patient** Init::recieve_patients(int n) {
         }
     }
 
-
+    
 
     // std::cout << "------------Final patients array ------------" << std::endl;
     // for (int i = 0; i < totalPatients; i++) {
@@ -154,10 +155,35 @@ Patient** Init::recieve_patients(int n) {
 
     // std::cout << total_lowPatients << ", " << total_medPatients << ", " << total_highPatients << ", " << totalPatients << std::endl;
 
-    // free(highPriorityPatients);
-    // free(medPriorityPatients);
-    // free(lowPriorityPatients);
-    // free(tempArray);
+    for (int i = 0; i < totalPatients; ++i) {
+      Patient * copy = new Patient(patients[i]->arrival_time, patients[i]->classification);
+      // free(patients[i]);
+      Patient * temp = patients[i];
+      patients[i] = copy;
+
+      delete temp;
+    }
+
+    // for (int i = 0; i < total_highPatients; ++i) {
+    //   delete highPriorityPatients[i];
+    // }
+
+    // for (int i = 0; i < total_medPatients; ++i) {
+    //   delete medPriorityPatients[i];
+    // }
+
+    // for (int i = 0; i < total_lowPatients; ++i) {
+    //   delete lowPriorityPatients[i];
+    // }
+
+    // for (int i = 0; i < (total_highPatients + total_medPatients); ++i) {
+    //   delete tempArray[i];
+    // }
+    
+    free(highPriorityPatients);
+    free(medPriorityPatients);
+    free(lowPriorityPatients);
+    free(tempArray);
 
     return patients;
 }

@@ -15,11 +15,13 @@ int main(int argc, char const *argv[])
 
   // TODO: read args
   
-  Init * initialize = new Init(500); // Init class with seed of 500 
   Global * global = new Global();
 
-  int size = 6;
-  Patient ** ps = initialize->recieve_patients(size); // get patients
+  Init * initialize = new Init(500); // Init class with seed of 500 
+
+  
+  Patient ** ps = initialize->recieve_patients(); // get patients
+  int size = initialize->totalPatients;
 
   // DEBUG: Print Patients
   for (int i = 0; i < size; ++i) {
@@ -71,16 +73,26 @@ int main(int argc, char const *argv[])
       if (currentEvent->system_type == SYSTEM_CLEAN) cs->performDeparture(currentEvent);
       break;
     }
-
+    
     delete currentEvent;
   }
 
   cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
   // Free Stuff
+
+  for (int i = 0; i < size; ++i) {
+    std::cout << "Patient " << i << " - ";
+    ps[i]->print();
+  }
+
+
   delete ns;
+  delete rs;
+  delete cs;
   delete eventList;
   delete initialize;
   delete global;
+
   for (int i = 0; i < size; ++i) {
     delete ps[i];
   }

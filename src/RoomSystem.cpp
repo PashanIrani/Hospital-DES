@@ -15,7 +15,7 @@ void RoomSystem::beforeEventRoutine(Event * event) {
 }
 
 RoomSystem::~RoomSystem() {
-
+  delete queue;
 }
 
 void RoomSystem::performArrival(Event * event) {
@@ -63,7 +63,6 @@ void RoomSystem::performDeparture(Event * event) {
   eventList->push(clean_event);
   
   
-  // delete departing_patient;
 
 }
 
