@@ -11,7 +11,6 @@ Init::Init(int seed) {
 
 Init::~Init() {
     delete generator;
-    //dequeue(patients);
 }
 
 NumberGenerator * Init::getNumberGenerator(double variable) {
@@ -64,23 +63,11 @@ Patient** Init::recieve_patients() {
     // Creating array to store the patients
     patients = (Patient **)malloc(sizeof(Patient *) * totalPatients);
 
+    // Initialize patients for each classification
     Patient** highPriorityPatients = generatePatientsOfClassification(lambda_high, total_highPatients, HIGH);
     Patient** medPriorityPatients = generatePatientsOfClassification(lambda_med, total_medPatients, MEDIUM);
     Patient** lowPriorityPatients = generatePatientsOfClassification(lambda_low, total_lowPatients, LOW);
-
-    // std::cout << "------------Low priority patients ------------" << std::endl;
-    // for (int i = 0; i < total_lowPatients; i++) {
-    //     lowPriorityPatients[i]->print();
-    // }
-    // std::cout << "------------Medium priority patients ------------" << std::endl;
-    // for (int i = 0; i < total_medPatients; i++) {
-    //     medPriorityPatients[i]->print();
-    // }
-    // std::cout << "------------High priority patients ------------" << std::endl;
-    // for (int i = 0; i < total_highPatients; i++) {
-    //     highPriorityPatients[i]->print();
-    // }
-
+    
     // merging highPriorityPatients and medPriorityPatients in a tempArray
     int totalHighAndMedPatients = total_medPatients + total_highPatients;
     Patient** tempArray = (Patient **)malloc(sizeof(Patient *) * totalHighAndMedPatients);
@@ -145,41 +132,7 @@ Patient** Init::recieve_patients() {
         }
     }
 
-    
-
-    // std::cout << "------------Final patients array ------------" << std::endl;
-    // for (int i = 0; i < totalPatients; i++) {
-    //     patients[i]->print();
-    //     std::cout << patients[i]->patientID << std::endl;;
-    // }
-
-    // std::cout << total_lowPatients << ", " << total_medPatients << ", " << total_highPatients << ", " << totalPatients << std::endl;
-
-    for (int i = 0; i < totalPatients; ++i) {
-      Patient * copy = new Patient(patients[i]->arrival_time, patients[i]->classification);
-      // free(patients[i]);
-      Patient * temp = patients[i];
-      patients[i] = copy;
-
-      delete temp;
-    }
-
-    // for (int i = 0; i < total_highPatients; ++i) {
-    //   delete highPriorityPatients[i];
-    // }
-
-    // for (int i = 0; i < total_medPatients; ++i) {
-    //   delete medPriorityPatients[i];
-    // }
-
-    // for (int i = 0; i < total_lowPatients; ++i) {
-    //   delete lowPriorityPatients[i];
-    // }
-
-    // for (int i = 0; i < (total_highPatients + total_medPatients); ++i) {
-    //   delete tempArray[i];
-    // }
-    
+    // Free temp arrays 
     free(highPriorityPatients);
     free(medPriorityPatients);
     free(lowPriorityPatients);
