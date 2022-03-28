@@ -36,8 +36,6 @@ Performs arrival for patients
 void RoomSystem::performArrival(Event * event) {
   beforeEventRoutine(event);
   
-  NumberGenerator * ng = init->getNumberGenerator(3);
-
   // determine service time based on patient's classification
   switch (event->item->classification)
   {
@@ -59,7 +57,6 @@ void RoomSystem::performArrival(Event * event) {
 
   if (global->DEBUG)
   std::cout << "RS service time: " << event->item->service_time <<  std::endl;
-  delete ng;
 
   queue->push(event->item);
 
