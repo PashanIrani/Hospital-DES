@@ -15,6 +15,7 @@ int main(int argc, char const *argv[])
   if (argc >= 14){
 
     Global * global = new Global();
+    
     global->lambda_high = atof(argv[1]);
     global->lambda_med = atof(argv[2]);
     global->lambda_low = atof(argv[3]);

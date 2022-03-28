@@ -25,6 +25,8 @@ class Clean {
     // Global class
     Global * global;
 
+    // Number generator used to generate cleaning times
+    NumberGenerator * ng;
   
     Clean(Heap<Event> * eventList, Init * init, Global * global, Heap<Patient> *hqueue);
     ~Clean();

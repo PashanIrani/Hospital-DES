@@ -13,12 +13,15 @@ NurseSystem::NurseSystem(Heap<Event> * eventList, Init * init, Global * global) 
   this->eventList = eventList;
   this->init = init;
   this->global = global;
+  
+  this->ng = init->getNumberGenerator(global->mu_evaluation);
 }
 
 /* Frees memory */ 
 NurseSystem::~NurseSystem() {
   FreeNodes(queue);
   free(queue);
+  delete ng;
 }
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
@@ -33,9 +36,7 @@ void NurseSystem::beforeEventRoutine(Event * event) {
 void NurseSystem::performArrival(Event * event) {
   beforeEventRoutine(event);
 
-  NumberGenerator * ng = init->getNumberGenerator(3); 
   event->item->service_time = ng->next(); // determine service time
-  delete ng;
   
   global->total_patients++;
   Insert(queue, event->item);

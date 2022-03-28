@@ -6,11 +6,18 @@ RoomSystem::RoomSystem(Heap<Event> * eventList, Init * init, Global * global) {
   this->eventList = eventList;
   this->init = init;
   this->global = global;
+
+  // init number generators with their respective means
+  this->ng_high = init->getNumberGenerator(global->mu_high);
+  this->ng_med = init->getNumberGenerator(global->mu_med);
+  this->ng_low = init->getNumberGenerator(global->mu_low);
 }
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void RoomSystem::beforeEventRoutine(Event * event) {
-  global->clock = event->event_time;
+  global->clock = event->event_time; // updates current time
+
+  // Debug log
   if (global->DEBUG) {
     std::cout << "(RS @ " << global->clock << ") - " << event->eventTypeToString() << " - " << event->item->toString() << std::endl;
   }
@@ -18,14 +25,38 @@ void RoomSystem::beforeEventRoutine(Event * event) {
 
 RoomSystem::~RoomSystem() {
   delete queue;
+  delete ng_high;
+  delete ng_med;
+  delete ng_low;
 }
 
+/*
+Performs arrival for patients
+*/
 void RoomSystem::performArrival(Event * event) {
   beforeEventRoutine(event);
   
   NumberGenerator * ng = init->getNumberGenerator(3);
-  event->item->service_time = ng->next();
+
+  // determine service time based on patient's classification
+  switch (event->item->classification)
+  {
+  case HIGH:
+    event->item->service_time = ng_high->next();
+    break;
+  case MEDIUM:
+    event->item->service_time = ng_med->next();
+    break;
+  case LOW:
+    event->item->service_time = ng_low->next();
+    break; 
+  default:
+    break;
+  }
+
+  
   event->item->arrival_time_room = global->clock;
+
   if (global->DEBUG)
   std::cout << "RS service time: " << event->item->service_time <<  std::endl;
   delete ng;
@@ -42,6 +73,9 @@ void RoomSystem::performArrival(Event * event) {
 
 }
 
+/*
+Performs service for patients
+*/
 void RoomSystem::performService(Event * event) {
   beforeEventRoutine(event);
 
@@ -56,6 +90,9 @@ void RoomSystem::performService(Event * event) {
   eventList->push(departure_event);
 }
 
+/*
+Performs departure for patients
+*/
 void RoomSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
   global->total_patients--;

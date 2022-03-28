@@ -14,6 +14,8 @@ Clean::Clean(Heap<Event> * eventList, Init * init, Global * global, Heap<Patient
   this->init = init;
   this->global = global;
   this->hqueue = hqueue;
+
+  this->ng = init->getNumberGenerator(global->mu_cleanup);
 }
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
@@ -27,14 +29,13 @@ void Clean::beforeEventRoutine(Event * event) {
 Clean::~Clean() {
   FreeNodes(queue);
   free(queue);
+  delete ng;
 }
 
 void Clean::performArrival(Event * event) {
   beforeEventRoutine(event);
 
-  NumberGenerator * ng = init->getNumberGenerator(3); 
   event->room->service_time = ng->next(); // determine service time
-  delete ng;
 
   Insert(queue, event->room);
 
