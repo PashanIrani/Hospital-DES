@@ -58,7 +58,7 @@ void RoomSystem::performService(Event * event) {
 
 void RoomSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
-
+  global->total_patients--;
   Patient * departing_patient = event->item; 
 
   Event * clean_event = new Event(ARRIVAL, global->clock, NULL, SYSTEM_CLEAN, event->room);
