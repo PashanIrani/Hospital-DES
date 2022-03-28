@@ -54,14 +54,14 @@ class Global {
     // Rooms in the system
     Room* rooms; // TODO:  make objects and make global
     
-    // Constructor, creates the rooms
-    Global (): rooms(new Room[R]){
+    void initRooms() {
+      this->rooms = new Room[R];
       for (int i=0; i<R; i++){
         (rooms+i)->roomId= i;
         (rooms+i)->isAvailable = true;
+        std::cout << "room: " << (rooms+i)->roomId << std::endl;
       }
     }
-
     // Returns a free Room    
     Room* getFreeRoom(){
       for (int i=0; i<R; i++){
