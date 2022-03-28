@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
     global->m2 = atoi(argv[12]);
     global->seed = atoi(argv[13]);
 
+    global->initRooms();
     //todo: validate the args
     
     Init * initialize = new Init(global->seed); // Init class with seed of 500 
@@ -97,10 +98,16 @@ int main(int argc, char const *argv[])
       cout<< "Average Wait time: "<<global->totalWaitE/size<<endl;
       // Free Stuff
 
+      int high = 0;
       for (int i = 0; i < size; ++i) {
         std::cout << "Patient " << i << " - ";
         ps[i]->print();
+        if (ps[i]->classification == HIGH) {
+          high++;
+        }
       }
+
+      std::cout << "High Patients: " << high << std::endl;
 
     }
 
