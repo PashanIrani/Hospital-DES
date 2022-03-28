@@ -11,7 +11,7 @@ class Patient : Heapable {
     double arrival_time;
 
     /* Stores the arrival time of the patient when the enter a room */
-    double arrival_time_room = -1.0;
+    double arrival_time_room_system = -1.0;
 
     /* Stoes the service time for the patient in the CURRENT system*/
     double service_time;

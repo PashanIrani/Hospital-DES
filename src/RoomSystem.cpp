@@ -52,8 +52,8 @@ void RoomSystem::performArrival(Event * event) {
     break;
   }
 
-  
-  event->item->arrival_time_room = global->clock;
+  // set arrival time of when patient arrive in the room system
+  event->item->arrival_time_room_system = global->clock;
 
   if (global->DEBUG)
   std::cout << "RS service time: " << event->item->service_time <<  std::endl;
@@ -64,7 +64,7 @@ void RoomSystem::performArrival(Event * event) {
 
 
   if (availRoom!=NULL) {
-    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room, event->item, SYSTEM_ROOM, availRoom);
+    Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room_system, event->item, SYSTEM_ROOM, availRoom);
     eventList->push(service_event);  
   }
 
