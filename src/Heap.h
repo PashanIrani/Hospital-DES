@@ -139,4 +139,8 @@ public:
   int getSize() {
     return size;
   }
+
+  O * getHead() {
+    return data[0];
+  }
 };

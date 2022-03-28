@@ -1,4 +1,5 @@
 #include "Heapable.h"
+#include <iostream>
 
 #pragma once
 
@@ -8,6 +9,10 @@ class Patient : Heapable {
   public:
     /* Stores the arrival of the patient in the CURRENT system */ 
     double arrival_time;
+
+    /* Stores the arrival time of the patient when the enter a room */
+    double arrival_time_room = -1.0;
+
     /* Stoes the service time for the patient in the CURRENT system*/
     double service_time;
 
@@ -23,5 +28,6 @@ class Patient : Heapable {
     
     double compareTo(Patient *);
     void print();    
-    //PatientClassification determineClassification();
+    std::string getClassificationAsString();
+    std::string toString();
 };
