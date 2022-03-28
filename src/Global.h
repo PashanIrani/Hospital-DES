@@ -16,7 +16,7 @@ class Global {
     int m1=2;
     
     // Indicates the number of Rooms in the System
-    int R=1;
+    int R=3;
     
     // Indicates the number of Cleaners in the System
     int m2=3;
@@ -26,20 +26,17 @@ class Global {
     
     // Constructor, creates the rooms
     Global (): rooms(new Room[R]){
-      Room* last = &rooms[R];
-      int i = 0;
-      for (Room* cur = rooms; cur!=last; ++cur){
-        cur->roomId = i;
-        cur->isAvailable = true;
+      for (int i=0; i<R; i++){
+        (rooms+i)->roomId= i;
+        (rooms+i)->isAvailable = true;
       }
     }
 
     // Returns a free Room    
     Room* getFreeRoom(){
-      Room* last = &rooms[R];
-      for (Room* cur = rooms; cur!=last; ++cur){
-        if(cur->isAvailable)
-          return cur;
+      for (int i=0; i<R; i++){
+        if((rooms+i)->isAvailable)
+          return (rooms+i);
       }
       return NULL; //not available
     }
