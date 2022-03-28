@@ -28,13 +28,31 @@ class Global {
     // Total patients leave because system is at capacity
     int total_leaving_patients = 0;
 
+    /*
+    Command Line Arguments
+    */
+    // inter-arrival mean value for high priority patients
     double lambda_high = 0.0;
+    
+    // inter-arrival mean value for med priority patients
     double lambda_med = 0.0;
+
+    // inter-arrival mean value for low priority patients
     double lambda_low = 0.0;
+    
+    // mean treatment time for high priority patients
     double mu_high = 0.0;
+
+    // mean treatment time for med priority patients
     double mu_med = 0.0;
+
+    // mean treatment time for low priority patients
     double mu_low = 0.0;
+
+    // mean evalutation time for all patients
     double mu_evaluation = 0.0;
+
+    // mean cleanup time for rooms 
     double mu_cleanup = 0.0;
     
     // Capacity of patients in emergency room + waiting area
@@ -48,22 +66,24 @@ class Global {
       
     // Indicates the number of Cleaners in the System
     int m2=3;
-    
+
+    // Seed for random generation    
     int seed = 0;
     
     // Rooms in the system
     Room* rooms; // TODO:  make objects and make global
     
+    // inits an array of rooms; assigns it's id and it's availability is set to true
     void initRooms() {
       this->rooms = new Room[R];
       for (int i=0; i<R; i++){
         (rooms+i)->roomId= i;
         (rooms+i)->isAvailable = true;
-        std::cout << "room: " << (rooms+i)->roomId << std::endl;
       }
     }
     // Returns a free Room    
     Room* getFreeRoom(){
+      // iterate through rooms until once is available, and return that
       for (int i=0; i<R; i++){
         if((rooms+i)->isAvailable)
           return (rooms+i);

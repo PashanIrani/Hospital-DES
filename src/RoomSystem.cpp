@@ -55,19 +55,21 @@ void RoomSystem::performArrival(Event * event) {
   // set arrival time of when patient arrive in the room system
   event->item->arrival_time_room_system = global->clock;
 
+  // debug LOG
   if (global->DEBUG)
   std::cout << "RS service time: " << event->item->service_time <<  std::endl;
 
+  // add event to priority queue, to await for service
   queue->push(event->item);
 
+  // get a free room for this patient
   Room* availRoom = global->getFreeRoom();
 
-
-  if (availRoom!=NULL) {
+  // if Room is available, start their service!
+  if (availRoom != NULL) {
     Event * service_event = new Event(START_SERVICE, event->item->arrival_time_room_system, event->item, SYSTEM_ROOM, availRoom);
     eventList->push(service_event);  
   }
-
 }
 
 /*
@@ -76,10 +78,13 @@ Performs service for patients
 void RoomSystem::performService(Event * event) {
   beforeEventRoutine(event);
 
+  // Mark room where this service is taking place to false
   event->room->isAvailable = false;
 
+  // determine departing time
   double departing_time = global->clock + event->item->service_time;
 
+  // remove patient from queue (patient is being serviced, they are no longer in the 'waiting room')
   Patient * servicing_patient = queue->pop();
 
   // Create departure event
@@ -92,13 +97,15 @@ Performs departure for patients
 */
 void RoomSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
-  global->total_patients--;
+  
+  // Grab departing patient
   Patient * departing_patient = event->item; 
 
+  // Send room for cleaning
   Event * clean_event = new Event(ARRIVAL, global->clock, NULL, SYSTEM_CLEAN, event->room);
   eventList->push(clean_event);
   
-  
-
+  // Decrement total patients as one just left the system
+  global->total_patients--;
 }
 

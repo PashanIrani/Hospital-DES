@@ -7,7 +7,7 @@ enum PatientClassification { HIGH, MEDIUM, LOW };
 
 class Patient : Heapable {
   public:
-    /* Stores the arrival of the patient in the CURRENT system */ 
+    /* Stores the arrival time of when the patient arrived to the system*/ 
     double arrival_time;
 
     /* Stores the arrival time of the patient when the enter a room */
@@ -21,7 +21,6 @@ class Patient : Heapable {
     /* Stores the patient's classification */
     PatientClassification classification;
 
-    // TODO: will likey need to create another variable to start patient's initial arrival time
 
     Patient(double arrival_time, PatientClassification classification);
     ~Patient();
