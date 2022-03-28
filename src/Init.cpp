@@ -43,10 +43,10 @@ void Init::deleteQueue(Patient** arr, int size) {
 }
 
 /* Returns an array of patients that will be "entering" the "hospital" */
-Patient** Init::recieve_patients() {
-    double lambda_high = 2; // 2 high priority patients every hour or 1 high priority patient every 30 mins
-    double lambda_med = 4;  // 4 med priority patients every hour or 1 med priority patient every 15 mins
-    double lambda_low = 6;  // 6 low priority patients every hour or 1 low priority patient every 10 mins
+Patient** Init::recieve_patients(double lambda_high, double lambda_med, double lambda_low) {
+    // double lambda_high = 2; // 2 high priority patients every hour or 1 high priority patient every 30 mins
+    // double lambda_med = 4;  // 4 med priority patients every hour or 1 med priority patient every 15 mins
+    // double lambda_low = 6;  // 6 low priority patients every hour or 1 low priority patient every 10 mins
 
     /*// total number of possible patients to arrive in 24 hours
     int total_highPatients = lambda_high * 24 * 2;
@@ -54,9 +54,9 @@ Patient** Init::recieve_patients() {
     int total_lowPatients = lambda_low * 24 * 2;*/
 
     // total number of possible patients to arrive in 24 hours
-    int total_highPatients = lambda_high * 10;
-    int total_medPatients = lambda_med * 12;
-    int total_lowPatients = lambda_low * 13;
+    int total_highPatients = lambda_high * 5;
+    int total_medPatients = lambda_med * 5;
+    int total_lowPatients = lambda_low * 5;
 
     totalPatients = total_highPatients + total_medPatients + total_lowPatients;
 
