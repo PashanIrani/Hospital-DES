@@ -28,9 +28,6 @@ class Global {
     // Total patients leave because system is at capacity
     int total_leaving_patients = 0;
 
-    // Capacity of patients in emergency room + waiting area
-    int B=40;
-    
     double lambda_high = 0.0;
     double lambda_med = 0.0;
     double lambda_low = 0.0;
@@ -40,7 +37,7 @@ class Global {
     double mu_evaluation = 0.0;
     double mu_cleanup = 0.0;
     
-    // Indicates system capacity
+    // Capacity of patients in emergency room + waiting area
     int B = 0;
 
     // Indicates the number of Rooms in the System
