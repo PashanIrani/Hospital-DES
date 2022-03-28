@@ -10,7 +10,26 @@ class Global {
     // holds current time of system
     double clock = 0.0;
 
+    // Wait time in E(evaluation) queue 
     double totalWaitE = 0.0;
+
+    // Wait time in P(patient treatment) queue
+    double totalWaitP = 0.0;
+
+    // Wait time for cleanup of rooms
+    double totalWaitR = 0.0;
+
+    // Total response time for each departing patients
+    double totalResponse = 0.0;
+
+    // Total Number of patients in waiting + treatment
+    int total_patients = 0;
+
+    // Total patients leave because system is at capacity
+    int total_leaving_patients = 0;
+
+    // Capacity of patients in emergency room + waiting area
+    int B=40;
     
     // Indicates the number of nurses in the system
     int m1=2;

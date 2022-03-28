@@ -36,7 +36,8 @@ void NurseSystem::performArrival(Event * event) {
   NumberGenerator * ng = init->getNumberGenerator(3); 
   event->item->service_time = ng->next(); // determine service time
   delete ng;
-
+  
+  global->total_patients++;
   Insert(queue, event->item);
 
   if (global->DEBUG)

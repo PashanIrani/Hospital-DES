@@ -47,7 +47,12 @@ int main(int argc, char const *argv[])
     {
     case ARRIVAL:
       // If a Nurse System event; perform it's arrival
-      if (currentEvent->system_type == SYSTEM_NURSE) ns->performArrival(currentEvent);
+      if (currentEvent->system_type == SYSTEM_NURSE){
+        if(global->total_patients < global->B)
+          ns->performArrival(currentEvent);
+        else
+          global->total_leaving_patients++;
+      }
       if (currentEvent->system_type == SYSTEM_ROOM) rs->performArrival(currentEvent);
       if (currentEvent->system_type == SYSTEM_CLEAN) cs->performArrival(currentEvent);
 
@@ -87,6 +92,8 @@ int main(int argc, char const *argv[])
     }
 
   }
+
+  std::cout<< "Total Patients who leave because system is full: "<< global->total_leaving_patients<<std::endl;
 
   // Free Pointers
   delete ns;
