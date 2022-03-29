@@ -15,7 +15,7 @@ RoomSystem::RoomSystem(Heap<Event> * eventList, Init * init, Global * global) {
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void RoomSystem::beforeEventRoutine(Event * event) {
-  global->clock = event->event_time; // updates current time
+  global->updateClock(event->event_time); // updates current time
 
   // Debug log
   if (global->DEBUG) {
@@ -84,6 +84,27 @@ void RoomSystem::performService(Event * event) {
   // determine departing time
   double departing_time = global->clock + event->item->service_time;
 
+  // calculate response time
+  double response_time = global->clock - event->item->arrival_time_room_system;
+  
+  // record wait time for queue P
+  global->totalWaitP += response_time;
+
+  switch (event->item->classification)
+  {
+  case HIGH:
+    global->totalHighWaitP += response_time;
+    break;
+  
+  case MEDIUM:
+    global->totalMedWaitP += response_time;
+    break;
+
+  case LOW:
+    global->totalLowWaitP += response_time;
+    break;
+  }
+
   // remove patient from queue (patient is being serviced, they are no longer in the 'waiting room')
   Patient * servicing_patient = queue->pop();
 
@@ -107,5 +128,33 @@ void RoomSystem::performDeparture(Event * event) {
   
   // Decrement total patients as one just left the system
   global->total_patients--;
+
+  // increment departing patient count
+  global->total_departed_patients++;
+
+  // calculate response time
+  double response_time = global->clock - departing_patient->arrival_time;
+  
+  // add to total response sum
+  global->totalResponseSum += response_time;
+
+  // add to classified departure count & response time
+  switch (departing_patient->classification)
+  {
+  case HIGH:
+    global->totalHighResponseSum += response_time;
+    global->total_high_departed_patients++;
+    break;
+  
+  case MEDIUM:
+    global->totalMedResponseSum += response_time;
+    global->total_med_departed_patients++;
+    break;
+
+  case LOW:
+    global->totalLowResponseSum += response_time;
+    global->total_low_departed_patients++;
+    break;
+  }
 }
 

@@ -20,8 +20,8 @@ Clean::Clean(Heap<Event> * eventList, Init * init, Global * global, Heap<Patient
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void Clean::beforeEventRoutine(Event * event) {
-  global->clock = event->event_time; // updates current time
-  
+  global->updateClock(event->event_time); // updates current time
+
   // debug LOG
   if (global->DEBUG) {
     std::cout << "(CS @ " << global->clock << ") - " << event->eventTypeToString() << " - [roomId: " << event->room->roomId << "]" << std::endl;
@@ -36,7 +36,8 @@ Clean::~Clean() {
 
 void Clean::performArrival(Event * event) {
   beforeEventRoutine(event);
-
+  
+  event->room->needed_cleanup_time = global->clock; // Store the time this room needed cleanup
   event->room->service_time = ng->next(); // determine service time
 
   // add room to queue to await cleanup
@@ -66,7 +67,6 @@ void Clean::performService(Event * event) {
   eventList->push(departure_event);
 }
 
-
 void Clean::performDeparture(Event * event) {
   beforeEventRoutine(event);
 
@@ -74,6 +74,9 @@ void Clean::performDeparture(Event * event) {
 
   // mark room to available, so it can start service for next patient
   event->room->isAvailable = true;
+
+  global->totalWaitR += global->clock - departing_room->needed_cleanup_time;
+  global->totalRoomsCleaned++;
 
   // if patients are waiting for a room, start the next patient's service
   if(hqueue->getSize() > 0){

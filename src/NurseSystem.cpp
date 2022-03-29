@@ -26,7 +26,7 @@ NurseSystem::~NurseSystem() {
 
 /* Steps that will be common in all routines for this system, and that need to be performed first */
 void NurseSystem::beforeEventRoutine(Event * event) {
-  global->clock = event->event_time; // update current time
+  global->updateClock(event->event_time); // update current time
 
   // debug LOG
   if (global->DEBUG) {
@@ -66,6 +66,9 @@ void NurseSystem::performService(Event * event) {
   // determine departing time
   double departing_time = global->clock + event->item->service_time;
 
+  // record wait time for queue E
+  global->totalWaitE += global->clock - event->item->arrival_time;
+  
   // Create departure event
   Event * departure_event = new Event(DEPARTURE, departing_time, event->item, SYSTEM_NURSE, NULL);
   eventList->push(departure_event);
@@ -77,9 +80,6 @@ void NurseSystem::performDeparture(Event * event) {
 
   Patient * departing_patient = Delete(queue); // remove departing patient from queue
   
-  // record wait time for queue E
-  global->totalWaitE += global->clock - departing_patient->arrival_time;
-
   // if there are patients awaiting service, start their service
   if(CountNodes(queue) > 0 && queue->current->next != NULL){
     Event * service_event = new Event(START_SERVICE, global->clock, queue->current->next->item, SYSTEM_NURSE, NULL);
