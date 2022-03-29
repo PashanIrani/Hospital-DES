@@ -139,10 +139,18 @@ int main(int argc, char const *argv[])
   }
 
   // Free Pointers ----
+  // delete all of the remaining events
+  while (eventList->getSize() > 0) {
+    delete eventList->pop();
+  }
+
+  // delete all patients
   for (int i = 0; i < patients_count; ++i) {
     delete ps[i];
   }
   free(ps);
+
+  // delete all initiated classes
   delete ns;
   delete rs;
   delete cs;
