@@ -73,9 +73,9 @@ int main(int argc, char const *argv[])
 
   NurseSystem * ns = new NurseSystem(eventList, initialize, global); // initialize nurseSystem
   RoomSystem * rs = new RoomSystem(eventList, initialize, global); // initialize nurseSystem
-  Clean *cs = new Clean(eventList, initialize, global, rs->queue);
+  Clean *cs = new Clean(eventList, initialize, global, rs->queue); // initialize clean/janitor system
 
-  while (eventList->getSize() > 0) {
+  while (eventList->getSize() > 0 && global->clock <= 24) {
     Event * currentEvent = eventList->pop(); // Get next event;
     switch (currentEvent->event_type)
     {
@@ -138,9 +138,11 @@ int main(int argc, char const *argv[])
     }
   }
 
-  std::cout<< "Total Patients who leave because system is full: "<< global->total_leaving_patients<<std::endl;
-
   // Free Pointers ----
+  for (int i = 0; i < patients_count; ++i) {
+    delete ps[i];
+  }
+  free(ps);
   delete ns;
   delete rs;
   delete cs;
@@ -148,10 +150,7 @@ int main(int argc, char const *argv[])
   delete initialize;
   delete global;
   
-  for (int i = 0; i < patients_count; ++i) {
-    delete ps[i];
-  }
-  free(ps);
+
 
   // ----
 

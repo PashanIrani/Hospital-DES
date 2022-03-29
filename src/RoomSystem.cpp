@@ -85,7 +85,7 @@ void RoomSystem::performService(Event * event) {
   double departing_time = global->clock + event->item->service_time;
 
   // calculate response time
-  double response_time = global->clock - event->item->arrival_time_room_system;
+  double response_time = departing_time - event->item->arrival_time_room_system;
   
   // record wait time for queue P
   global->totalWaitP += response_time;

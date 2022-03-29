@@ -19,7 +19,7 @@ NurseSystem::NurseSystem(Heap<Event> * eventList, Init * init, Global * global) 
 
 /* Frees memory */ 
 NurseSystem::~NurseSystem() {
-  FreeNodes(queue);
+  //FreeNodes(queue);
   free(queue);
   delete ng;
 }
@@ -50,6 +50,10 @@ void NurseSystem::performArrival(Event * event) {
   if (global->DEBUG)
   std::cout << "Service Time For Arriving patient: " << event->item->service_time <<  std::endl;
   
+  // Free queue if hospital terminates after 24 hrs
+  if (global->clock + event->item->service_time >=24){
+    Delete(queue);
+  }
   // starts service if there is an available server
   if (CountNodes(queue) <= global->m1) {
     Event * service_event = new Event(START_SERVICE, event->item->arrival_time, event->item, SYSTEM_NURSE, NULL);
@@ -65,9 +69,6 @@ void NurseSystem::performService(Event * event) {
 
   // determine departing time
   double departing_time = global->clock + event->item->service_time;
-
-  // record wait time for queue E
-  global->totalWaitE += global->clock - event->item->arrival_time;
   
   // Create departure event
   Event * departure_event = new Event(DEPARTURE, departing_time, event->item, SYSTEM_NURSE, NULL);
@@ -79,6 +80,9 @@ void NurseSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
 
   Patient * departing_patient = Delete(queue); // remove departing patient from queue
+  
+  // record wait time for queue E
+  global->totalWaitE += global->clock - event->item->arrival_time;
   
   // if there are patients awaiting service, start their service
   if(CountNodes(queue) > 0 && queue->current->next != NULL){
