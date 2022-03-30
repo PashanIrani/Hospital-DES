@@ -47,7 +47,8 @@ int main(int argc, char const *argv[])
   global->seed = atoi(argv[13]);
 
   global->initRooms(); // init rooms
-  
+
+
   Init * initialize = new Init(global->seed); // Object creation class, used to provide us with objects and random numbers
 
   Patient ** ps = initialize->recieve_patients(global->lambda_high, global->lambda_med, global->lambda_low); // initializee patients
@@ -75,7 +76,9 @@ int main(int argc, char const *argv[])
   RoomSystem * rs = new RoomSystem(eventList, initialize, global); // initialize nurseSystem
   Clean *cs = new Clean(eventList, initialize, global, rs->queue); // initialize clean/janitor system
 
-  while (eventList->getSize() > 0 && global->clock <= 24) {
+  std::cout << "testt" << std::endl;
+
+  while (eventList->getSize() > 0 && global->clock <= global->terminating_time) {
     Event * currentEvent = eventList->pop(); // Get next event;
     switch (currentEvent->event_type)
     {

@@ -51,7 +51,7 @@ void NurseSystem::performArrival(Event * event) {
   std::cout << "Service Time For Arriving patient: " << event->item->service_time <<  std::endl;
   
   // Free queue if hospital terminates after 24 hrs
-  if (global->clock + event->item->service_time >=24){
+  if (global->clock + event->item->service_time >= global->terminating_time){
     Delete(queue);
   }
   // starts service if there is an available server

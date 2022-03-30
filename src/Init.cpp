@@ -54,9 +54,9 @@ Patient** Init::recieve_patients(double lambda_high, double lambda_med, double l
     int total_lowPatients = lambda_low * 24 * 2;*/
 
     // total number of possible patients to arrive in 24 hours
-    int total_highPatients = lambda_high * 24*2;
-    int total_medPatients = lambda_med * 24*2;
-    int total_lowPatients = lambda_low * 24*2;
+    int total_highPatients = lambda_high * 60 * 24 * 2; 
+    int total_medPatients = lambda_med * 60 * 24 * 2;
+    int total_lowPatients = lambda_low * 60 * 24 * 2;
 
     totalPatients = total_highPatients + total_medPatients + total_lowPatients;
 

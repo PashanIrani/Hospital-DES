@@ -106,6 +106,9 @@ class Global {
     // Rooms in the system
     Room* rooms; // TODO:  make objects and make global
     
+    // The minute the hospital should close
+    double terminating_time = 24 * 60;
+
     // inits an array of rooms; assigns it's id and it's availability is set to true
     void initRooms() {
       this->rooms = new Room[R];
@@ -126,20 +129,20 @@ class Global {
 
     void printStats() {
         std::string space = " ";
-        std::cout << "Stats for Hour " << (int) clock << ": " << std::endl;
+        std::cout << "Stats for Minute " << (int) clock << ": " << std::endl;
         std::cout << space << "Total Departures: " << total_departed_patients << std::endl;
         std::cout << space << "Average # of Patients in System: " << sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
         // std::cout << space << "Current Capcity: " << total_patients << " ("<< ((double) total_patients / (double) B) * 100.0 << "%)" << std::endl;
-        std::cout << space << "Average Response Time [ALL]: " << totalResponseSum / total_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Response Time [HIGH]: " << totalHighResponseSum / total_high_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Response Time [MEDIUM]: " << totalMedResponseSum / total_med_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Response Time [LOW]: " << totalLowResponseSum / total_low_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Waiting Time (E): " << totalWaitE / total_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Waiting Time (P) [ALL]: " << totalWaitP / total_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Waiting Time (P) [HIGH]: " << totalHighWaitP / total_high_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Waiting Time (P) [MEDIUM]: " << totalMedWaitP / total_med_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Waiting Time (P) [LOW]: " << totalLowWaitP / total_low_departed_patients << " hrs" << std::endl;
-        std::cout << space << "Average Cleanup Time: " << totalWaitR / totalRoomsCleaned << " hrs" << std::endl;
+        std::cout << space << "Average Response Time [ALL]: " << totalResponseSum / total_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Response Time [HIGH]: " << totalHighResponseSum / total_high_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Response Time [MEDIUM]: " << totalMedResponseSum / total_med_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Response Time [LOW]: " << totalLowResponseSum / total_low_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Waiting Time (E): " << totalWaitE / total_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Waiting Time (P) [ALL]: " << totalWaitP / total_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Waiting Time (P) [HIGH]: " << totalHighWaitP / total_high_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Waiting Time (P) [MEDIUM]: " << totalMedWaitP / total_med_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Waiting Time (P) [LOW]: " << totalLowWaitP / total_low_departed_patients << " mins" << std::endl;
+        std::cout << space << "Average Cleanup Time: " << totalWaitR / totalRoomsCleaned << " mins" << std::endl;
         std::cout << space << "# of patients who left because system was at full capacity: " << total_leaving_patients << std::endl;
         std::cout << std::endl;
     } 
@@ -150,7 +153,7 @@ class Global {
       numOfTimeClockUpdated++; // count the number of times the clock was updated
       sumOfTotalPatients += total_patients; // sum of total patients, so we can later calculate the average
 
-      if ((int) clock == lastPrintHour + 1) {
+      if ((int) clock == lastPrintHour + 60) {
         printStats();
         lastPrintHour = (int) clock;
       }
