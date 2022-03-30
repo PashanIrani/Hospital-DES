@@ -107,7 +107,7 @@ class Global {
     Room* rooms; // TODO:  make objects and make global
     
     // The minute the hospital should close
-    double terminating_time = 24 * 60;
+    double terminating_time = 24.0 * 60.0;
 
     // inits an array of rooms; assigns it's id and it's availability is set to true
     void initRooms() {
@@ -152,11 +152,6 @@ class Global {
 
       numOfTimeClockUpdated++; // count the number of times the clock was updated
       sumOfTotalPatients += total_patients; // sum of total patients, so we can later calculate the average
-
-      if ((int) clock == lastPrintHour + 60) {
-        printStats();
-        lastPrintHour = (int) clock;
-      }
     }
     
     ~Global (){
@@ -164,7 +159,6 @@ class Global {
     }
 
     private:
-      int lastPrintHour = 0;  
       int sumOfTotalPatients = 0;
       int numOfTimeClockUpdated = 0;
 };

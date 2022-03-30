@@ -76,7 +76,8 @@ int main(int argc, char const *argv[])
   RoomSystem * rs = new RoomSystem(eventList, initialize, global); // initialize nurseSystem
   Clean *cs = new Clean(eventList, initialize, global, rs->queue); // initialize clean/janitor system
 
-  std::cout << "testt" << std::endl;
+  // Holds the last hour when the stats were printed
+  int lastPrintHour = global->clock / 60;
 
   while (eventList->getSize() > 0 && global->clock <= global->terminating_time) {
     Event * currentEvent = eventList->pop(); // Get next event;
@@ -102,6 +103,12 @@ int main(int argc, char const *argv[])
       // Create next arrival for Nurse System if patients are still arriving to the hospital
       if (incomingPatientIndex < patients_count)
       eventList->push(new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL));
+
+      // If it's a new hour, print stats
+      if ((int) global->clock / 60 > lastPrintHour) { // if it's a new hour
+        global->printStats();
+        lastPrintHour = (int) global->clock / 60; // track when this was printed
+      }
 
       break;
 
@@ -130,6 +137,10 @@ int main(int argc, char const *argv[])
 
     delete currentEvent;
   }
+
+  // Print final stats
+  std::cout << "Simulated Ended." << std::endl;
+  global->printStats();
 
   // debug LOG
   if (global->DEBUG) {
