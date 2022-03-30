@@ -76,7 +76,10 @@ T * Delete (struct Queue<T> *q) {
     }
     struct QueueNode<T> *temp = q->head;
     q->head = q->head->next;
-  
+    //q->current = q->head;
+    if (q->current == temp) {
+        q->current = q->current->next;
+    }
     q->arrival_count-=1;
     q->departure_count+=1;
 

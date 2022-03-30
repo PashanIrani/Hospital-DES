@@ -60,6 +60,9 @@ void NurseSystem::performArrival(Event * event) {
     eventList->push(service_event);
     queue->current = queue->tail;
   }
+  else {
+    queue->current = queue->head;
+  }
   
 }
 
@@ -86,6 +89,9 @@ void NurseSystem::performDeparture(Event * event) {
   
   
   // if there are patients awaiting service, start their service
+  if (queue->current == NULL) {
+    std::cout << "current null" << std::endl;
+  }
   if(CountNodes(queue) > 0 && queue->current->next != NULL){
     Event * service_event = new Event(START_SERVICE, global->clock, queue->current->next->item, SYSTEM_NURSE, NULL);
     eventList->push(service_event);
