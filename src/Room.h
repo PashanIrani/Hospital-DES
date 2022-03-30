@@ -12,6 +12,8 @@ class Room {
 
         /*Service time for room cleanup*/
         double service_time;
-    
+
+        /* Stores the time this room needed to be cleaned */
+        double needed_cleanup_time; 
 };
 

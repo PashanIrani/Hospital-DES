@@ -21,6 +21,9 @@ class NurseSystem {
     // Global class
     Global * global;
 
+    // Number generator used to generate evalutaion times
+    NumberGenerator * ng;
+
     NurseSystem(Heap<Event> * eventList, Init * init, Global * global);
     ~NurseSystem();
 

@@ -111,7 +111,7 @@ void FreeNodes(struct Queue<T> *q) {
     while (iter != NULL) {
         struct QueueNode<T> *temp = iter;
        iter = iter->next; 
-       delete temp->item;
+       //delete temp->item;
        free(temp);
     }
 }

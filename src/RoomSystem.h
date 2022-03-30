@@ -22,6 +22,11 @@ class RoomSystem {
     Global * global;
 
   
+    // Number generators used to generate service times
+    NumberGenerator * ng_high; // for high patients
+    NumberGenerator * ng_med; // for medium patients
+    NumberGenerator * ng_low; // for low patients
+    
     RoomSystem(Heap<Event> * eventList, Init * init, Global * global);
     ~RoomSystem();
 
