@@ -19,6 +19,6 @@ public :
     void deleteQueue(Patient** arr, int size);
 
 private:
-    Patient** generatePatientsOfClassification(double lambda, int totalPatients, PatientClassification classification);
+    Patient** generatePatientsOfClassification(double lambda, int *totalPatients, PatientClassification classification);
 };
 
