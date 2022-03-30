@@ -5,7 +5,7 @@
 class Global {
   public:
     // Enables debug prints
-    bool const DEBUG = true;
+    bool const DEBUG = false;
 
     // holds current time of system
     double clock = 0.0;
@@ -104,8 +104,8 @@ class Global {
     int seed = 0;
     
     // Rooms in the system
-    Room* rooms; // TODO:  make objects and make global
-    
+    Room* rooms;
+
     // The minute the hospital should close
     double terminating_time = 24.0 * 60.0;
 
@@ -131,7 +131,7 @@ class Global {
         std::string space = " ";
         std::cout << "Stats for Minute " << (int) clock << ": " << std::endl;
         std::cout << space << "Total Departures: " << total_departed_patients << std::endl;
-        std::cout << space << "Average # of Patients in System: " << sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
+        std::cout << space << "Average # of Patients in System: " << (double) sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
         // std::cout << space << "Current Capcity: " << total_patients << " ("<< ((double) total_patients / (double) B) * 100.0 << "%)" << std::endl;
         std::cout << space << "Average Response Time [ALL]: " << totalResponseSum / total_departed_patients << " mins" << std::endl;
         std::cout << space << "Average Response Time [HIGH]: " << totalHighResponseSum / total_high_departed_patients << " mins" << std::endl;

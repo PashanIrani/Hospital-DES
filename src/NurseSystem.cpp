@@ -55,13 +55,9 @@ void NurseSystem::performArrival(Event * event) {
     Delete(queue);
   }
   // starts service if there is an available server
-  if (CountNodes(queue) <= global->m1) {
+  if (CountNodes(queue) + currently_being_serviced <= global->m1) {
     Event * service_event = new Event(START_SERVICE, event->item->arrival_time, event->item, SYSTEM_NURSE, NULL);
     eventList->push(service_event);
-    queue->current = queue->tail;
-  }
-  else {
-    queue->current = queue->head;
   }
   
 }
@@ -69,15 +65,20 @@ void NurseSystem::performArrival(Event * event) {
 /* Service Event Routine */ 
 void NurseSystem::performService(Event * event) {
   beforeEventRoutine(event);
-
+  
+  Delete(queue); 
+  
+  Patient * servicing_patient = event->item; 
+  currently_being_serviced++;
+  
   // determine departing time
-  double departing_time = global->clock + event->item->service_time;
+  double departing_time = global->clock + servicing_patient->service_time;
   
   // record wait time for queue E
-  global->totalWaitE += global->clock - event->item->arrival_time;
+  global->totalWaitE += global->clock - servicing_patient->arrival_time;
 
   // Create departure event
-  Event * departure_event = new Event(DEPARTURE, departing_time, event->item, SYSTEM_NURSE, NULL);
+  Event * departure_event = new Event(DEPARTURE, departing_time, servicing_patient, SYSTEM_NURSE, NULL);
   eventList->push(departure_event);
 }
 
@@ -85,17 +86,15 @@ void NurseSystem::performService(Event * event) {
 void NurseSystem::performDeparture(Event * event) {
   beforeEventRoutine(event);
 
-  Patient * departing_patient = Delete(queue); // remove departing patient from queue
+  //  Delete(queue); // remove departing patient from queue
+  Patient * departing_patient = event->item;
   
-  
+  currently_being_serviced--;
+
   // if there are patients awaiting service, start their service
-  if (queue->current == NULL) {
-    std::cout << "current null" << std::endl;
-  }
-  if(CountNodes(queue) > 0 && queue->current->next != NULL){
-    Event * service_event = new Event(START_SERVICE, global->clock, queue->current->next->item, SYSTEM_NURSE, NULL);
+  if(CountNodes(queue) > 0){
+    Event * service_event = new Event(START_SERVICE, global->clock, queue->head->item, SYSTEM_NURSE, NULL);
     eventList->push(service_event);
-    queue->current = queue->current->next;
   }
 
   // This patient will then enter the Room Queue.

@@ -48,10 +48,9 @@ void Clean::performArrival(Event * event) {
   std::cout << "Service Time For cleaning room: " << event->room->service_time <<  std::endl;
   
   // If available server, start cleanup
-  if (CountNodes(queue)  <= global->m2) {
+  if (CountNodes(queue) + currently_being_serviced <= global->m2) {
     Event * service_event = new Event(START_SERVICE, global->clock, NULL, SYSTEM_CLEAN, event->room);
     eventList->push(service_event);
-    queue->current = queue->tail;
   }
 }
 
@@ -59,8 +58,12 @@ void Clean::performArrival(Event * event) {
 void Clean::performService(Event * event) {
   beforeEventRoutine(event);
 
+  Delete(queue); // Remove serviced room
+
   // determine departing time
   double departing_time = global->clock + event->room->service_time;
+  
+  currently_being_serviced++;
 
   // Create departure event
   Event * departure_event = new Event(DEPARTURE, departing_time, NULL, SYSTEM_CLEAN, event->room);
@@ -70,24 +73,25 @@ void Clean::performService(Event * event) {
 void Clean::performDeparture(Event * event) {
   beforeEventRoutine(event);
 
-  Room * departing_room = Delete(queue); // remove departing patient from queue
+  Room * departing_room = event->room; // remove departing patient from queue
+
+  currently_being_serviced--;
 
   // mark room to available, so it can start service for next patient
   event->room->isAvailable = true;
 
   global->totalWaitR += global->clock - departing_room->needed_cleanup_time;
   global->totalRoomsCleaned++;
-
-  // if patients are waiting for a room, start the next patient's service
+  
+  // if patients are waiting for a room, start the next patient's service, in this room since it's just been cleaned
   if(hqueue->getSize() > 0){
     Event * service_event = new Event(START_SERVICE, global->clock, hqueue->getHead(), SYSTEM_ROOM, event->room);
     eventList->push(service_event);
   }
 
   // if another room is awaiting cleanup, start it's clean up
-  if(CountNodes(queue) >0 && queue->current->next!=NULL){
-    Event * service_event = new Event(START_SERVICE, global->clock, NULL, SYSTEM_CLEAN, event->room);
+  if(CountNodes(queue) >0){
+    Event * service_event = new Event(START_SERVICE, global->clock, NULL, SYSTEM_CLEAN, queue->head->item);
     eventList->push(service_event);
-    queue->current = queue->current->next;
   }
 }

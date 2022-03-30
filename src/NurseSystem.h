@@ -34,4 +34,5 @@ class NurseSystem {
   private:
     double getWaitTimeOfQueue();
     void beforeEventRoutine(Event * event);
+    int currently_being_serviced = 0; // keeps track of how many patients are currently being serviced
 };
