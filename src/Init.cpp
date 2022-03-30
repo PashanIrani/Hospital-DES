@@ -26,7 +26,7 @@ Patient** Init::generatePatientsOfClassification(double lambda, int* numPatients
     double lastArrival = 0;
     int i = 0;
     
-    while (lastArrival < 1440) {
+    while (lastArrival < 1) {
         if (i >= num) {
             patientQueue = (Patient **) realloc(patientQueue, sizeof(Patient *) * (num*2));
             num *= 2;
@@ -140,6 +140,6 @@ Patient** Init::recieve_patients(double lambda_high, double lambda_med, double l
     free(total_highPatients);
     free(total_medPatients);
     free(total_lowPatients);
-    
+
     return patients;
 }

@@ -5,7 +5,7 @@
 class Global {
   public:
     // Enables debug prints
-    bool const DEBUG = false;
+    bool const DEBUG = true;
 
     // holds current time of system
     double clock = 0.0;

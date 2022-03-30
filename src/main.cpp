@@ -46,6 +46,20 @@ int main(int argc, char const *argv[])
   global->m2 = atoi(argv[12]);
   global->seed = atoi(argv[13]);
 
+  std::cout <<
+  "lambda_high: " << global->lambda_high <<
+  "\nlambda_med: " << global->lambda_med <<
+  "\nlambda_low: " << global->lambda_low <<
+  "\nmu_evaluation: " << global->mu_evaluation <<
+  "\nmu_high: " << global->mu_high <<
+  "\nmu_med: " << global->mu_med <<
+  "\nmu_low: " << global->mu_low <<
+  "\nmu_cleanup: " << global->mu_cleanup <<
+  "\nB: " << global->B <<
+  "\nR: " << global->R <<
+  "\nm1 (Nurses): " << global->m1 <<
+  "\nm2 (Cleaners): " << global->m2 <<
+  "\nSeed: " << global->seed << std::endl;
   global->initRooms(); // init rooms
 
 
