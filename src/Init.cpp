@@ -25,17 +25,21 @@ Patient** Init::generatePatientsOfClassification(double lambda, int* numPatients
 
     double lastArrival = 0;
     int i = 0;
-    
-    while (lastArrival < 1440) {
+    double threshold = 1440.0;
+    while (lastArrival < threshold) {
         if (i >= num) {
             patientQueue = (Patient **) realloc(patientQueue, sizeof(Patient *) * (num*2));
             num *= 2;
         }
 
-        lastArrival += ng->next();
+        lastArrival += ng->next(); // get next arrival time
+        
+        if (lastArrival >= threshold) continue; // if the arrival of this patient ends up being more than, continue.
+
         patientQueue[i] = new Patient(lastArrival, classification);
         i++;
     }
+
     *numPatients = i;
 
     delete ng;

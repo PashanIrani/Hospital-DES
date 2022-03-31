@@ -34,22 +34,22 @@ int main(int argc, char const *argv[])
 
   // Mean of inter-arrival time for High patients
   global->lambda_high = atof(argv[1]);
-  if (global->lambda_high <= 0.0) {
-    std::cout << "Lambda High must be > 0" << std::endl;
+  if (global->lambda_high < 0.0) {
+    std::cout << "Lambda High must be positive" << std::endl;
     return -1; 
   }
 
   // Mean of inter-arrival time for med patients
   global->lambda_med = atof(argv[2]);
-  if (global->lambda_med <= 0.0) {
-    std::cout << "Lambda Medium must be > 0" << std::endl;
+  if (global->lambda_med < 0.0) {
+    std::cout << "Lambda Medium must be positive" << std::endl;
     return -1; 
   }
 
   // Mean of inter-arrival time for low patients
   global->lambda_low = atof(argv[3]);
-  if (global->lambda_low <= 0.0) {
-    std::cout << "Lambda Low must be > 0" << std::endl;
+  if (global->lambda_low < 0.0) {
+    std::cout << "Lambda Low must be positive" << std::endl;
     return -1; 
   }
 
@@ -102,6 +102,12 @@ int main(int argc, char const *argv[])
     return -1; 
   }
 
+  // B must be greater than R
+  if (global->R >= global->B) {
+    std::cout << "B must be greater than R" << std::endl;
+    return -1;
+  }
+
   // M1: Number of nurses
   global->m1 = atoi(argv[11]);
   if (global->m1 <= 0.0) {
@@ -118,24 +124,26 @@ int main(int argc, char const *argv[])
 
   global->seed = atoi(argv[13]); // Seed for random numbers
 
-
-  // Debug Log
-  if (global->DEBUG) {
-    std::cout <<
-    "lambda_high: " << global->lambda_high <<
-    "\nlambda_med: " << global->lambda_med <<
-    "\nlambda_low: " << global->lambda_low <<
-    "\nmu_evaluation: " << global->mu_evaluation <<
-    "\nmu_high: " << global->mu_high <<
-    "\nmu_med: " << global->mu_med <<
-    "\nmu_low: " << global->mu_low <<
-    "\nmu_cleanup: " << global->mu_cleanup <<
-    "\nB: " << global->B <<
-    "\nR: " << global->R <<
-    "\nm1 (Nurses): " << global->m1 <<
-    "\nm2 (Cleaners): " << global->m2 <<
-    "\nSeed: " << global->seed << std::endl;
+  if (global->seed < 0) {
+    std::cout << "Seed must be > 0" << std::endl;
+    return -1;
   }
+
+  std::cout <<
+  "[Arguments Used] lambda_high: " << global->lambda_high <<
+  ", lambda_med: " << global->lambda_med <<
+  ", lambda_low: " << global->lambda_low <<
+  ", mu_evaluation: " << global->mu_evaluation <<
+  ", mu_high: " << global->mu_high <<
+  ", mu_med: " << global->mu_med <<
+  ", mu_low: " << global->mu_low <<
+  ", mu_cleanup: " << global->mu_cleanup <<
+  ", B: " << global->B <<
+  ", R: " << global->R <<
+  ", m1 (Nurses): " << global->m1 <<
+  ", m2 (Cleaners): " << global->m2 <<
+  ", Seed: " << global->seed << std::endl << std::endl;
+
 
   global->initRooms(); // init rooms
 
@@ -159,8 +167,12 @@ int main(int argc, char const *argv[])
 
   int incomingPatientIndex = 0; // point to first paitent arriving to hospital
 
-  Event *firstPatientArrival = new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL); // create an arrival event for it
-  eventList->push(firstPatientArrival); // add to event list
+  // don't create first arrival event is list is empty...
+  if (patients_count > 0) {
+    Event *firstPatientArrival = new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL); // create an arrival event for it
+    eventList->push(firstPatientArrival); // add to event list
+  }
+
 
   NurseSystem * ns = new NurseSystem(eventList, initialize, global); // initialize nurseSystem
   RoomSystem * rs = new RoomSystem(eventList, initialize, global); // initialize nurseSystem
@@ -234,13 +246,33 @@ int main(int argc, char const *argv[])
 
   // debug LOG
   if (global->DEBUG) {
-    cout<< "Average Wait time: "<<global->totalWaitE/patients_count<<endl;
+    int high_count = 0;
+    int med_count = 0;
+    int low_count = 0;
 
     for (int i = 0; i < patients_count; ++i) {
       std::cout << "Patient " << i << " - ";
       ps[i]->print();
+      switch (ps[i]->classification)
+      {
+      case HIGH:
+        high_count++;
+        break;
+      case MEDIUM:
+        med_count++;
+        break;
+      case LOW:
+        low_count++;
+        break;
+      }
     }
+
+    std::cout << "# of High Patients: " << high_count << std::endl;
+    std::cout << "# of Med Patients: " << med_count << std::endl;
+    std::cout << "# of Low Patients: " << low_count << std::endl;
   }
+
+  
 
   // Free Pointers ----
   // delete all of the remaining events

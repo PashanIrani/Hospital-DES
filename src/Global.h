@@ -47,7 +47,7 @@ class Global {
     int total_patients = 0;
 
     // Total patients leave because system is at capacity
-    int total_leaving_patients = 0;
+    unsigned int total_leaving_patients = 0;
 
     // Holds the number of patients that left the system
     int total_departed_patients = 0;
@@ -129,7 +129,7 @@ class Global {
 
     void printStats() {
         std::string space = " ";
-        std::cout << "Stats for Minute " << (int) clock << ": " << std::endl;
+        std::cout << "Stats for Hour " << ((int) clock) / 60 << ": " << std::endl;
         std::cout << space << "Total Departures: " << total_departed_patients << std::endl;
         std::cout << space << "Average # of Patients in System: " << (double) sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
         // std::cout << space << "Current Capcity: " << total_patients << " ("<< ((double) total_patients / (double) B) * 100.0 << "%)" << std::endl;
@@ -159,6 +159,6 @@ class Global {
     }
 
     private:
-      int sumOfTotalPatients = 0;
+      unsigned int sumOfTotalPatients = 0;
       int numOfTimeClockUpdated = 0;
 };
