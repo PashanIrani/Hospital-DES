@@ -14,10 +14,6 @@ template <class T>
 struct Queue {
     struct QueueNode<T>* head;    // Pointer to queue head: next node to be served
     struct QueueNode<T>* tail;    // Pointer to queue tail: last node to be inserted
-    struct QueueNode<T>* current;
-    double service_time;       // service time required to serve each customer in the queue
-    double arrival_count;      // Total number of arrivals in the queue
-    double departure_count;    // Total number of departures from the queue
 };
 
 /*
@@ -27,7 +23,7 @@ struct Queue {
  */
 template <class T>
 struct QueueNode<T>* CreateNode(T * item) {
-    struct QueueNode<T> *newNode = (struct QueueNode<T> *)malloc(sizeof(struct QueueNode<T>));
+    struct QueueNode<T> *newNode = (struct QueueNode<T> *)malloc(sizeof(struct QueueNode<T>)); // allocates new node
     newNode->item = item;
     newNode->next = NULL;
     return newNode;
@@ -41,16 +37,14 @@ struct QueueNode<T>* CreateNode(T * item) {
 template<class T>
 void Insert(struct Queue<T> *q, T * item) {
     struct QueueNode<T> *newNode = CreateNode(item);
-    q->arrival_count += 1;
+    // if the inserting item is the first one to be inserted
     if (q->head==NULL){
         q->head = newNode;
         q->tail = newNode;
-        q->arrival_count+=1;
         return;
     }
-    q->tail->next = newNode;
+    q->tail->next = newNode;  //Inset after the last element (tail)
     q->tail = newNode;
-    q->arrival_count+=1;
 }
 
 /*
@@ -62,27 +56,22 @@ void Insert(struct Queue<T> *q, T * item) {
  */
 template <class T>
 T * Delete (struct Queue<T> *q) {
-    if(q->head == NULL)
+    if(q->head == NULL)  //if no element inside queue exit 
         return NULL;
-    else if (q->head->next == NULL){
+    else if (q->head->next == NULL){ // if only one element inside queue assign head and tail to NULL and delete
         struct QueueNode<T> *temp = q->head;
         q->head = NULL;
         q->tail = NULL;
-        q->arrival_count-=1;
-        q->departure_count+=1;
         T * return_item = temp->item;
-        free(temp);
-        return return_item;
+        free(temp);          //free the node
+        return return_item;  // return the deleted item
     }
     struct QueueNode<T> *temp = q->head;
     q->head = q->head->next;
-  
-    q->arrival_count-=1;
-    q->departure_count+=1;
 
     T * return_item = temp->item;
-    free(temp);  
-    return return_item;
+    free(temp);           //free the node
+    return return_item;   //return the deleted item
 }
 
 /*
@@ -91,10 +80,10 @@ T * Delete (struct Queue<T> *q) {
  */
 template <class T>
 double CountNodes(struct Queue<T> *q) {
-    if(q->head == NULL)
+    if(q->head == NULL)  //No element return 0
         return 0;
     int count = 0;
-    struct QueueNode<T> *iter = q->head;
+    struct QueueNode<T> *iter = q->head;  //starts from head and count till the end (tail)
     while(iter!=NULL){
         iter = iter->next;
         count++;
@@ -102,17 +91,16 @@ double CountNodes(struct Queue<T> *q) {
     return count;
 }
 
-
+// Free all the Nodes in the queue
 template <class T>
 void FreeNodes(struct Queue<T> *q) {
-    if (q->head == NULL) return;
+    if (q->head == NULL) return;  // No elements to free
 
     struct QueueNode<T> *iter = q->head;
-    while (iter != NULL) {
+    while (iter != NULL) {    // iterate to free all elements
         struct QueueNode<T> *temp = iter;
        iter = iter->next; 
-       //delete temp->item;
-       free(temp);
+       free(temp);   //deallocates the space (memory)
     }
 }
 

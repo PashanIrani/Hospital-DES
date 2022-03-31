@@ -37,4 +37,5 @@ class Clean {
 
   private:
     void beforeEventRoutine(Event * event);
+    int currently_being_serviced = 0; // keeps track of how many rooms are being serviced
 };

@@ -85,23 +85,23 @@ void RoomSystem::performService(Event * event) {
   double departing_time = global->clock + event->item->service_time;
 
   // calculate response time
-  double response_time = departing_time - event->item->arrival_time_room_system;
+  double waiting_time = global->clock - event->item->arrival_time_room_system;
   
   // record wait time for queue P
-  global->totalWaitP += response_time;
+  global->totalWaitP += waiting_time;
 
   switch (event->item->classification)
   {
   case HIGH:
-    global->totalHighWaitP += response_time;
+    global->totalHighWaitP += waiting_time;
     break;
   
   case MEDIUM:
-    global->totalMedWaitP += response_time;
+    global->totalMedWaitP += waiting_time;
     break;
 
   case LOW:
-    global->totalLowWaitP += response_time;
+    global->totalLowWaitP += waiting_time;
     break;
   }
 

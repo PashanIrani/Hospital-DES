@@ -23,27 +23,23 @@ Patient** Init::generatePatientsOfClassification(double lambda, int* numPatients
     int num = 1;
     Patient** patientQueue = (Patient**) malloc(sizeof(Patient*) * num);
 
-    // todo: look into it
-    //Patient* patient = (Patient*) malloc(sizeof (Patient) * totalPatients);
-
-    // double lastArrival = 0;
-    // for (int i = 0; i < numPatients; i++) {
-    //     lastArrival += ng->next();
-    //     patientQueue[i] = new Patient(lastArrival, classification);
-    // }
-
-
     double lastArrival = 0;
     int i = 0;
-    while (lastArrival < 1440) {
+    double threshold = 1440.0;
+    while (lastArrival < threshold) {
         if (i >= num) {
             patientQueue = (Patient **) realloc(patientQueue, sizeof(Patient *) * (num*2));
             num *= 2;
         }
-        lastArrival += ng->next();
+
+        lastArrival += ng->next(); // get next arrival time
+        
+        if (lastArrival >= threshold) continue; // if the arrival of this patient ends up being more than, continue.
+
         patientQueue[i] = new Patient(lastArrival, classification);
         i++;
     }
+
     *numPatients = i;
 
     delete ng;
@@ -59,19 +55,6 @@ void Init::deleteQueue(Patient** arr, int size) {
 
 /* Returns an array of patients that will be "entering" the "hospital" */
 Patient** Init::recieve_patients(double lambda_high, double lambda_med, double lambda_low) {
-    // double lambda_high = 2; // 2 high priority patients every hour or 1 high priority patient every 30 mins
-    // double lambda_med = 4;  // 4 med priority patients every hour or 1 med priority patient every 15 mins
-    // double lambda_low = 6;  // 6 low priority patients every hour or 1 low priority patient every 10 mins
-
-    /*// total number of possible patients to arrive in 24 hours
-    int total_highPatients = lambda_high * 24 * 2;
-    int total_medPatients = lambda_med * 24 * 2;
-    int total_lowPatients = lambda_low * 24 * 2;*/
-
-    // total number of possible patients to arrive in 24 hours
-    // int total_highPatients = lambda_high * 60 * 24 * 2; 
-    // int total_medPatients = lambda_med * 60 * 24 * 2;
-    // int total_lowPatients = lambda_low * 60 * 24 * 2;
 
     int *total_highPatients = (int*) malloc(sizeof (int));
     int *total_medPatients = (int*) malloc(sizeof (int));
@@ -83,6 +66,7 @@ Patient** Init::recieve_patients(double lambda_high, double lambda_med, double l
     Patient** lowPriorityPatients = generatePatientsOfClassification(lambda_low, total_lowPatients, LOW);
     
     totalPatients = *total_highPatients + *total_medPatients + *total_lowPatients;
+
     // Creating array to store the patients
     patients = (Patient **)malloc(sizeof(Patient *) * totalPatients);
 
@@ -92,6 +76,7 @@ Patient** Init::recieve_patients(double lambda_high, double lambda_med, double l
     int highCount = 0;
     int medCount = 0;
     int i = 0;
+
     while (medCount < *total_medPatients && highCount < *total_highPatients) {
         if (highPriorityPatients[highCount]->arrival_time < medPriorityPatients[medCount]->arrival_time) {
             tempArray[i] = highPriorityPatients[highCount];
@@ -155,6 +140,10 @@ Patient** Init::recieve_patients(double lambda_high, double lambda_med, double l
     free(medPriorityPatients);
     free(lowPriorityPatients);
     free(tempArray);
+
+    free(total_highPatients);
+    free(total_medPatients);
+    free(total_lowPatients);
 
     return patients;
 }

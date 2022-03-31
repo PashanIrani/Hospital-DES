@@ -22,32 +22,130 @@ CMPT305 Project 1 - Pashan Irani, Manav Meghpara & Divij Gupta
 */
 int main(int argc, char const *argv[])
 {
+  // If not enough arguments, exit.
   if (argc < 14) {
     std::cout << "Insufficient number of arguments provided!" << std::endl;
     return -1;
   }
 
-
   Global * global = new Global(); // init global class; used to access certain values throughout the program
 
-  // grab command line arguments and store them 
-  //TODO: validate the args
+  // Grab command line arguments and store them:
+
+  // Mean of inter-arrival time for High patients
   global->lambda_high = atof(argv[1]);
+  if (global->lambda_high < 0.0) {
+    std::cout << "Lambda High must be positive" << std::endl;
+    return -1; 
+  }
+
+  // Mean of inter-arrival time for med patients
   global->lambda_med = atof(argv[2]);
+  if (global->lambda_med < 0.0) {
+    std::cout << "Lambda Medium must be positive" << std::endl;
+    return -1; 
+  }
+
+  // Mean of inter-arrival time for low patients
   global->lambda_low = atof(argv[3]);
+  if (global->lambda_low < 0.0) {
+    std::cout << "Lambda Low must be positive" << std::endl;
+    return -1; 
+  }
+
+  // Mean of evaluation time for patients
   global->mu_evaluation = atof(argv[4]);
+  if (global->mu_evaluation <= 0.0) {
+    std::cout << "Mu Evaluation must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // Mean of service time for high patients
   global->mu_high = atof(argv[5]);
+  if (global->mu_high <= 0.0) {
+    std::cout << "Mu High must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // Mean of service time for medium patients
   global->mu_med = atof(argv[6]);
+  if (global->mu_med <= 0.0) {
+    std::cout << "Mu Medium must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // Mean of service time for low patients
   global->mu_low = atof(argv[7]);
+  if (global->mu_low <= 0.0) {
+    std::cout << "Mu Low must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // Mean of  cleanup times
   global->mu_cleanup = atof(argv[8]);
+  if (global->mu_cleanup <= 0.0) {
+    std::cout << "Mu Cleanup must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // B: capactiy of hospital
   global->B = atoi(argv[9]);
+  if (global->B <= 0.0) {
+    std::cout << "B must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // R: Number of rooms
   global->R = atoi(argv[10]);
+  if (global->R <= 0.0) {
+    std::cout << "R must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // B must be greater than R
+  if (global->R >= global->B) {
+    std::cout << "B must be greater than R" << std::endl;
+    return -1;
+  }
+
+  // M1: Number of nurses
   global->m1 = atoi(argv[11]);
+  if (global->m1 <= 0.0) {
+    std::cout << "M1 must be > 0" << std::endl;
+    return -1; 
+  }
+
+  // M2: number of cleaners
   global->m2 = atoi(argv[12]);
-  global->seed = atoi(argv[13]);
+  if (global->m2 <= 0.0) {
+    std::cout << "M2 must be > 0" << std::endl;
+    return -1; 
+  }
+
+  global->seed = atoi(argv[13]); // Seed for random numbers
+
+  if (global->seed < 0) {
+    std::cout << "Seed must be > 0" << std::endl;
+    return -1;
+  }
+
+  std::cout <<
+  "[Arguments Used] lambda_high: " << global->lambda_high <<
+  ", lambda_med: " << global->lambda_med <<
+  ", lambda_low: " << global->lambda_low <<
+  ", mu_evaluation: " << global->mu_evaluation <<
+  ", mu_high: " << global->mu_high <<
+  ", mu_med: " << global->mu_med <<
+  ", mu_low: " << global->mu_low <<
+  ", mu_cleanup: " << global->mu_cleanup <<
+  ", B: " << global->B <<
+  ", R: " << global->R <<
+  ", m1 (Nurses): " << global->m1 <<
+  ", m2 (Cleaners): " << global->m2 <<
+  ", Seed: " << global->seed << std::endl << std::endl;
+
 
   global->initRooms(); // init rooms
-
 
   Init * initialize = new Init(global->seed); // Object creation class, used to provide us with objects and random numbers
 
@@ -69,14 +167,19 @@ int main(int argc, char const *argv[])
 
   int incomingPatientIndex = 0; // point to first paitent arriving to hospital
 
-  Event *firstPatientArrival = new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL); // create an arrival event for it
-  eventList->push(firstPatientArrival); // add to event list
+  // don't create first arrival event is list is empty...
+  if (patients_count > 0) {
+    Event *firstPatientArrival = new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL); // create an arrival event for it
+    eventList->push(firstPatientArrival); // add to event list
+  }
+
 
   NurseSystem * ns = new NurseSystem(eventList, initialize, global); // initialize nurseSystem
   RoomSystem * rs = new RoomSystem(eventList, initialize, global); // initialize nurseSystem
   Clean *cs = new Clean(eventList, initialize, global, rs->queue); // initialize clean/janitor system
 
-  std::cout << "testt" << std::endl;
+  // Holds the last hour when the stats were printed
+  int lastPrintHour = global->clock / 60;
 
   while (eventList->getSize() > 0 && global->clock <= global->terminating_time) {
     Event * currentEvent = eventList->pop(); // Get next event;
@@ -102,6 +205,12 @@ int main(int argc, char const *argv[])
       // Create next arrival for Nurse System if patients are still arriving to the hospital
       if (incomingPatientIndex < patients_count)
       eventList->push(new Event(ARRIVAL, ps[incomingPatientIndex]->arrival_time, ps[incomingPatientIndex], SYSTEM_NURSE, NULL));
+
+      // If it's a new hour, print stats
+      if ((int) global->clock / 60 > lastPrintHour) { // if it's a new hour
+        global->printStats();
+        lastPrintHour = (int) global->clock / 60; // track when this was printed
+      }
 
       break;
 
@@ -131,15 +240,39 @@ int main(int argc, char const *argv[])
     delete currentEvent;
   }
 
+  // Print final stats
+  std::cout << "Simulated Ended." << std::endl;
+  global->printStats();
+
   // debug LOG
   if (global->DEBUG) {
-    cout<< "Average Wait time: "<<global->totalWaitE/patients_count<<endl;
+    int high_count = 0;
+    int med_count = 0;
+    int low_count = 0;
 
     for (int i = 0; i < patients_count; ++i) {
       std::cout << "Patient " << i << " - ";
       ps[i]->print();
+      switch (ps[i]->classification)
+      {
+      case HIGH:
+        high_count++;
+        break;
+      case MEDIUM:
+        med_count++;
+        break;
+      case LOW:
+        low_count++;
+        break;
+      }
     }
+
+    std::cout << "# of High Patients: " << high_count << std::endl;
+    std::cout << "# of Med Patients: " << med_count << std::endl;
+    std::cout << "# of Low Patients: " << low_count << std::endl;
   }
+
+  
 
   // Free Pointers ----
   // delete all of the remaining events

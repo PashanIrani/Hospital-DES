@@ -47,7 +47,7 @@ class Global {
     int total_patients = 0;
 
     // Total patients leave because system is at capacity
-    int total_leaving_patients = 0;
+    unsigned int total_leaving_patients = 0;
 
     // Holds the number of patients that left the system
     int total_departed_patients = 0;
@@ -104,10 +104,10 @@ class Global {
     int seed = 0;
     
     // Rooms in the system
-    Room* rooms; // TODO:  make objects and make global
-    
+    Room* rooms;
+
     // The minute the hospital should close
-    double terminating_time = 24 * 60;
+    double terminating_time = 24.0 * 60.0;
 
     // inits an array of rooms; assigns it's id and it's availability is set to true
     void initRooms() {
@@ -129,9 +129,9 @@ class Global {
 
     void printStats() {
         std::string space = " ";
-        std::cout << "Stats for Minute " << (int) clock << ": " << std::endl;
+        std::cout << "Stats for Hour " << ((int) clock) / 60 << ": " << std::endl;
         std::cout << space << "Total Departures: " << total_departed_patients << std::endl;
-        std::cout << space << "Average # of Patients in System: " << sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
+        std::cout << space << "Average # of Patients in System: " << (double) sumOfTotalPatients / numOfTimeClockUpdated << std::endl;
         // std::cout << space << "Current Capcity: " << total_patients << " ("<< ((double) total_patients / (double) B) * 100.0 << "%)" << std::endl;
         std::cout << space << "Average Response Time [ALL]: " << totalResponseSum / total_departed_patients << " mins" << std::endl;
         std::cout << space << "Average Response Time [HIGH]: " << totalHighResponseSum / total_high_departed_patients << " mins" << std::endl;
@@ -152,11 +152,6 @@ class Global {
 
       numOfTimeClockUpdated++; // count the number of times the clock was updated
       sumOfTotalPatients += total_patients; // sum of total patients, so we can later calculate the average
-
-      if ((int) clock == lastPrintHour + 60) {
-        printStats();
-        lastPrintHour = (int) clock;
-      }
     }
     
     ~Global (){
@@ -164,7 +159,6 @@ class Global {
     }
 
     private:
-      int lastPrintHour = 0;  
-      int sumOfTotalPatients = 0;
+      unsigned int sumOfTotalPatients = 0;
       int numOfTimeClockUpdated = 0;
 };
