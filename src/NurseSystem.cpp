@@ -19,7 +19,7 @@ NurseSystem::NurseSystem(Heap<Event> * eventList, Init * init, Global * global) 
 
 /* Frees memory */ 
 NurseSystem::~NurseSystem() {
-  //FreeNodes(queue);
+  FreeNodes(queue);
   free(queue);
   delete ng;
 }

@@ -9,9 +9,9 @@ CXX=g++
 CCFLAGS= -g -std=c++11 -Wall # -Werror
 LDLIBS= -lm
 
-all: project1
+all: proj1
 
-project1: $(OBJ_FILES)
+proj1: $(OBJ_FILES)
 	$(CXX) $(CCFLAGS) $(LDLIBS) -o $@ $^ 
 
 ./%.o: $(SRC_DIR)/%.cpp
@@ -19,4 +19,4 @@ project1: $(OBJ_FILES)
 
 
 clean:
-	rm ./project1
+	rm ./proj1
